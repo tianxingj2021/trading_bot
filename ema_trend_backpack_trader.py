@@ -20,6 +20,8 @@ import subprocess
 import traceback
 from utils.helper import adapt_symbol
 from dateutil import parser as dtparser
+import requests
+import socket
 
 class EMATrendBackpackTrader:
     def __init__(self, config_file="backpack_trader_config.json"):
@@ -60,7 +62,9 @@ class EMATrendBackpackTrader:
             "risk_reward_ratio": 2,
             "max_positions": 3,
             "enable_logging": True,
-            "log_file": "backpack_trader.log"
+            "log_file": "backpack_trader.log",
+            "max_retries": 3,
+            "retry_delay": 5
         }
         
         if os.path.exists(self.config_file):
@@ -101,13 +105,54 @@ class EMATrendBackpackTrader:
             except Exception as e:
                 print(f"写入日志失败: {e}")
 
+    def is_network_error(self, exception):
+        """判断是否为网络相关错误"""
+        network_errors = (
+            requests.exceptions.ConnectionError,
+            requests.exceptions.Timeout,
+            requests.exceptions.RequestException,
+            socket.error,
+            BrokenPipeError,
+            ConnectionResetError,
+            OSError
+        )
+        return isinstance(exception, network_errors)
+
+    def safe_api_call(self, api_func, *args, **kwargs):
+        """安全的API调用，带重试机制"""
+        max_retries = self.config.get('max_retries', 3)
+        retry_delay = self.config.get('retry_delay', 5)
+        
+        for attempt in range(max_retries + 1):
+            try:
+                return api_func(*args, **kwargs)
+            except Exception as e:
+                if self.is_network_error(e):
+                    if attempt < max_retries:
+                        wait_time = retry_delay * (attempt + 1)
+                        self.log_message(f"网络错误 (第{attempt + 1}次): {type(e).__name__}: {e}")
+                        self.log_message(f"等待{wait_time}秒后重试...")
+                        time.sleep(wait_time)
+                        continue
+                    else:
+                        self.log_message(f"网络错误，已达到最大重试次数: {type(e).__name__}: {e}")
+                        raise
+                else:
+                    # 非网络错误直接抛出
+                    raise
+        return None
+
     def check_account_status(self):
         """检查账户状态"""
         try:
             # 简化账户检查，避免API签名问题
             # 只检查余额，不检查持仓
             from utils.account_adapter import get_account_balance
-            balance = get_account_balance(self.exchange, 'USDC')
+            
+            def get_balance_safe():
+                return get_account_balance(self.exchange, 'USDC')
+            
+            balance = self.safe_api_call(get_balance_safe)
             self.log_message(f"账户余额: {balance:.2f} USDC")
             
             # 检查本地持仓记录
@@ -210,21 +255,27 @@ class EMATrendBackpackTrader:
                 else:
                     remaining_time = balance_check_interval - (current_time - last_balance_check)
                     self.log_message(f"距离下次余额查询还有 {remaining_time:.0f} 秒")
-                # 只请求一次持仓API
+                
+                # 只请求一次持仓API，使用安全调用
                 try:
-                    ex = get_exchange_instance(self.exchange)
-                    positions = ex.get_positions()
+                    def get_positions_safe():
+                        ex = get_exchange_instance(self.exchange)
+                        return ex.get_positions()
+                    
+                    positions = self.safe_api_call(get_positions_safe)
                     self.last_positions = positions
                     self.log_message(f"实际持仓数: {len(positions)}")
                 except Exception as e:
                     self.log_message(f"获取持仓信息失败: {e}")
                     positions = []
                     self.last_positions = []
+                
                 # 检查持仓限制（用缓存）
                 if not self.check_position_limits(positions):
                     self.log_message("达到最大持仓数量，跳过开仓")
                     time.sleep(check_interval)
                     continue
+                
                 # 执行策略（用缓存）
                 for symbol in symbols:
                     self.log_message(f"执行策略: {symbol}")
@@ -235,15 +286,22 @@ class EMATrendBackpackTrader:
                         self.log_message(f"策略结果: {action} - {reason}")
                     else:
                         self.log_message(f"策略结果: {action} | 详情: {result}")
+                
                 self.log_message(f"等待{check_interval}秒后进行下次检查...")
                 time.sleep(check_interval)
+                
             except KeyboardInterrupt:
                 self.log_message("收到停止信号，正在退出...")
                 break
             except Exception as e:
                 self.log_message(f"交易循环异常: {e}")
-                traceback.print_exc()
-                time.sleep(check_interval)
+                if self.is_network_error(e):
+                    self.log_message("检测到网络错误，等待后重试...")
+                    time.sleep(check_interval * 2)  # 网络错误时等待更长时间
+                else:
+                    traceback.print_exc()
+                    time.sleep(check_interval)
+        
         self.log_message("交易循环已停止")
 
     def run_single_execution(self, symbol):

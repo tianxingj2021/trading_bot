@@ -253,8 +253,22 @@ class EMATrendStrategy:
         
         try:
             # 获取K线数据
-            df_1h = self.get_binance_klines(symbol, '1h', limit=1500)
-            df_15m = self.get_binance_klines(symbol, '15m', limit=3000)
+            try:
+                df_1h = self.get_binance_klines(symbol, '1h', limit=1500)
+                df_15m = self.get_binance_klines(symbol, '15m', limit=3000)
+                
+                # 检查K线数据是否有效
+                if df_1h.empty or df_15m.empty:
+                    print(f"K线数据为空，无法执行策略")
+                    return {'action': 'error', 'reason': 'K线数据为空'}
+                
+                if len(df_1h) < 200 or len(df_15m) < 55:
+                    print(f"K线数据不足，1h: {len(df_1h)}, 15m: {len(df_15m)}")
+                    return {'action': 'error', 'reason': 'K线数据不足'}
+                    
+            except Exception as e:
+                print(f"获取K线数据失败: {e}")
+                return {'action': 'error', 'reason': f'获取K线数据失败: {str(e)}'}
             
             # 仅用于展示，不再作为下单依据
             try:
@@ -610,18 +624,26 @@ class EMATrendStrategy:
         interval_map = {'15m': 15*60*1000, '1h': 1*60*60*1000, '4h': 4*60*60*1000}
         interval_ms = interval_map.get(interval, 1*60*1000)
         now = int(time.time() * 1000)
+        
         # 1. 加载本地缓存
         if os.path.exists(cache_file):
             df = pd.read_csv(cache_file, index_col='open_time')
             df.index = df.index.astype(int)
         else:
             df = pd.DataFrame()
+        
         # 2. 补全历史（本地数据不足时）
         if df.empty or len(df) < limit:
-            klines = EMATrendStrategy.binance.get_klines(symbol, interval, limit=limit)
-            new_df = pd.DataFrame([{ 'open_time': k.open_time, 'open': float(k.open), 'high': float(k.high), 'low': float(k.low), 'close': float(k.close), 'volume': float(k.volume), 'close_time': k.close_time } for k in klines])
-            new_df.set_index('open_time', inplace=True)
-            df = new_df if df.empty else pd.concat([df, new_df])
+            try:
+                klines = EMATrendStrategy.binance.get_klines(symbol, interval, limit=limit)
+                new_df = pd.DataFrame([{ 'open_time': k.open_time, 'open': float(k.open), 'high': float(k.high), 'low': float(k.low), 'close': float(k.close), 'volume': float(k.volume), 'close_time': k.close_time } for k in klines])
+                new_df.set_index('open_time', inplace=True)
+                df = new_df if df.empty else pd.concat([df, new_df])
+            except Exception as e:
+                print(f"获取K线历史数据失败: {e}")
+                if df.empty:
+                    return pd.DataFrame()  # 如果没有缓存数据，返回空DataFrame
+        
         # 3. 检查并补全缺口
         if not df.empty:
             all_times = np.arange(df.index.min(), df.index.max()+interval_ms, interval_ms)
@@ -637,19 +659,30 @@ class EMATrendStrategy:
                 except Exception as e:
                     print(f"补全K线失败: {e}")
                     continue
+        
         # 4. 拉取最新一根K线并追加
-        latest_kl = EMATrendStrategy.binance.get_klines(symbol, interval, limit=1)
-        if latest_kl:
-            k = latest_kl[0]
-            if k.open_time not in df.index:
-                row = pd.DataFrame([{ 'open_time': k.open_time, 'open': float(k.open), 'high': float(k.high), 'low': float(k.low), 'close': float(k.close), 'volume': float(k.volume), 'close_time': k.close_time }])
-                row.set_index('open_time', inplace=True)
-                df = pd.concat([df, row])
+        try:
+            latest_kl = EMATrendStrategy.binance.get_klines(symbol, interval, limit=1)
+            if latest_kl:
+                k = latest_kl[0]
+                if k.open_time not in df.index:
+                    row = pd.DataFrame([{ 'open_time': k.open_time, 'open': float(k.open), 'high': float(k.high), 'low': float(k.low), 'close': float(k.close), 'volume': float(k.volume), 'close_time': k.close_time }])
+                    row.set_index('open_time', inplace=True)
+                    df = pd.concat([df, row])
+        except Exception as e:
+            print(f"获取最新K线失败: {e}")
+            # 如果获取最新K线失败，使用缓存数据
+        
         # 5. 排序、去重（不再截断）
         df = df[~df.index.duplicated(keep='last')]
         df = df.sort_index()
+        
         # 6. 保存全部历史缓存
-        df.to_csv(cache_file)
+        try:
+            df.to_csv(cache_file)
+        except Exception as e:
+            print(f"保存K线缓存失败: {e}")
+        
         # 7. 返回最新limit根
         return df.tail(limit)
 
