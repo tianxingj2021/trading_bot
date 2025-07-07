@@ -1,0 +1,12 @@
+{
+  "symbols": ["BTCUSDT"],
+  "leverage": 50,
+  "risk_pct": 0.1,
+  "check_interval": 30,
+  "atr_period": 14,
+  "atr_mult": 2,
+  "risk_reward_ratio": 5,
+  "max_positions": 1,
+  "enable_logging": true,
+  "log_file": "backpack_trader.log"
+} 

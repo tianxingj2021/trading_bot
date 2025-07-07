@@ -1,0 +1,16 @@
+2025-07-05 08:41:46 | INFO     | __main__:get_account:44 - 收到的exchange参数: %s
+2025-07-05 08:41:46 | INFO     | __main__:get_account:46 - ex实例类型: %s
+2025-07-05 08:41:46 | INFO     | __main__:get_account:48 - web_app.py用的BACKPACK_API_KEY: %s
+2025-07-05 08:41:46 | INFO     | __main__:get_account:49 - web_app.py用的BACKPACK_API_SECRET: %s
+2025-07-05 08:42:15 | INFO     | __main__:get_account:44 - 收到的exchange参数: %s
+2025-07-05 08:42:15 | INFO     | __main__:get_account:46 - ex实例类型: %s
+2025-07-05 08:42:15 | INFO     | __main__:get_account:48 - web_app.py用的BACKPACK_API_KEY: %s
+2025-07-05 08:42:15 | INFO     | __main__:get_account:49 - web_app.py用的BACKPACK_API_SECRET: %s
+2025-07-05 10:37:13 | INFO     | __main__:get_account:44 - 收到的exchange参数: %s
+2025-07-05 10:37:13 | INFO     | __main__:get_account:46 - ex实例类型: %s
+2025-07-05 10:37:13 | INFO     | __main__:get_account:48 - web_app.py用的BACKPACK_API_KEY: %s
+2025-07-05 10:37:13 | INFO     | __main__:get_account:49 - web_app.py用的BACKPACK_API_SECRET: %s
+2025-07-05 10:41:23 | INFO     | __main__:get_account:44 - 收到的exchange参数: %s
+2025-07-05 10:41:23 | INFO     | __main__:get_account:46 - ex实例类型: %s
+2025-07-05 10:41:23 | INFO     | __main__:get_account:48 - web_app.py用的BACKPACK_API_KEY: %s
+2025-07-05 10:41:23 | INFO     | __main__:get_account:49 - web_app.py用的BACKPACK_API_SECRET: %s

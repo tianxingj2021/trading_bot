@@ -1,0 +1,377 @@
+2025-07-07 15:15:03 | INFO     | __main__:get_account:57 - 收到的exchange参数: %s
+2025-07-07 15:15:03 | INFO     | __main__:get_account:59 - ex实例类型: %s
+2025-07-07 15:15:03 | INFO     | __main__:get_account:61 - web_app.py用的BACKPACK_API_KEY: %s
+2025-07-07 15:15:03 | INFO     | __main__:get_account:62 - web_app.py用的BACKPACK_API_SECRET: %s
+2025-07-07 15:15:14 | INFO     | __main__:get_account:57 - 收到的exchange参数: %s
+2025-07-07 15:15:14 | INFO     | __main__:get_account:59 - ex实例类型: %s
+2025-07-07 15:15:14 | INFO     | __main__:get_account:61 - web_app.py用的BACKPACK_API_KEY: %s
+2025-07-07 15:15:14 | INFO     | __main__:get_account:62 - web_app.py用的BACKPACK_API_SECRET: %s
+2025-07-07 15:15:15 | ERROR    | __main__:get_account:96 - 接口异常: %s
+Traceback (most recent call last):
+
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/gevent/baseserver.py", line 34, in _handle_and_close_when_done
+    return handle(*args_tuple)
+           │       └ (<gevent._socket3.socket at 0x11842f760 object, fd=23, family=2, type=1, proto=0>, ('127.0.0.1', 63754))
+           └ <bound method WSGIServer.handle of <WSGIServer at 0x103584890 fileno=15 address=0.0.0.0:5001>>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/gevent/pywsgi.py", line 1704, in handle
+    handler.handle()
+    │       └ <function WSGIHandler.handle at 0x11841f420>
+    └ <gevent.pywsgi.WSGIHandler object at 0x119442c50>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/gevent/pywsgi.py", line 578, in handle
+    result = self.handle_one_request()
+             │    └ <function WSGIHandler.handle_one_request at 0x11841f740>
+             └ <gevent.pywsgi.WSGIHandler object at 0x119442c50>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/gevent/pywsgi.py", line 808, in handle_one_request
+    self.handle_one_response()
+    │    └ <function WSGIHandler.handle_one_response at 0x11841fec0>
+    └ <gevent.pywsgi.WSGIHandler object at 0x119442c50>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/gevent/pywsgi.py", line 1111, in handle_one_response
+    self.run_application()
+    │    └ <function WSGIHandler.run_application at 0x11841fe20>
+    └ <gevent.pywsgi.WSGIHandler object at 0x119442c50>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/gevent/pywsgi.py", line 1058, in run_application
+    self.process_result()
+    │    └ <function WSGIHandler.process_result at 0x11841fd80>
+    └ <gevent.pywsgi.WSGIHandler object at 0x119442c50>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/gevent/pywsgi.py", line 1042, in process_result
+    for data in self.result:
+                │    └ <generator object DebuggedApplication.debug_application at 0x1182d7100>
+                └ <gevent.pywsgi.WSGIHandler object at 0x119442c50>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/werkzeug/debug/__init__.py", line 343, in debug_application
+    app_iter = self.app(environ, start_response)
+               │    │   │        └ <bound method WSGIHandler.start_response of <gevent.pywsgi.WSGIHandler object at 0x119442c50>>
+               │    │   └ {'GATEWAY_INTERFACE': 'CGI/1.1', 'SERVER_SOFTWARE': 'gevent/20.0 Python/3.11', 'SCRIPT_NAME': '', 'wsgi.version': (1, 0), 'ws...
+               │    └ <bound method Flask.wsgi_app of <Flask 'web_app'>>
+               └ <werkzeug.debug.DebuggedApplication object at 0x107b60f90>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/flask/app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+               │    └ <function Flask.full_dispatch_request at 0x1026fb880>
+               └ <Flask 'web_app'>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/flask/app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+         │    └ <function Flask.dispatch_request at 0x1026fb7e0>
+         └ <Flask 'web_app'>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/flask/app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           │    │           │    │              │    │            └ {}
+           │    │           │    │              │    └ 'get_account'
+           │    │           │    │              └ <Rule '/api/account' (HEAD, GET, OPTIONS) -> get_account>
+           │    │           │    └ {'static': <function Flask.__init__.<locals>.<lambda> at 0x107b040e0>, 'index': <function index at 0x118393ce0>, 'get_account...
+           │    │           └ <Flask 'web_app'>
+           │    └ <function Flask.ensure_sync at 0x1026fba60>
+           └ <Flask 'web_app'>
+
+> File "/Users/dujian/aster/aster_bot_python/web_app.py", line 78, in get_account
+    account = ex.get_account()
+              │  └ <function Aster.get_account at 0x102cf2160>
+              └ <exchanges.aster.Aster object at 0x118311950>
+
+  File "/Users/dujian/aster/aster_bot_python/exchanges/aster.py", line 602, in get_account
+    response = self._signed_request('GET', '/fapi/v2/account')
+               │    └ <function Aster._signed_request at 0x102cf1940>
+               └ <exchanges.aster.Aster object at 0x118311950>
+
+  File "/Users/dujian/aster/aster_bot_python/exchanges/aster.py", line 419, in _signed_request
+    raise Exception(f"API请求失败: {response.status_code} - {response.text}")
+
+Exception: API请求失败: 400 - {"code":-1021,"msg":"Timestamp for this request is outside of the recvWindow."}
+2025-07-07 15:15:33 | INFO     | __main__:get_account:57 - 收到的exchange参数: %s
+2025-07-07 15:15:33 | INFO     | __main__:get_account:59 - ex实例类型: %s
+2025-07-07 15:15:33 | INFO     | __main__:get_account:61 - web_app.py用的BACKPACK_API_KEY: %s
+2025-07-07 15:15:33 | INFO     | __main__:get_account:62 - web_app.py用的BACKPACK_API_SECRET: %s
+2025-07-07 15:15:34 | ERROR    | __main__:get_account:96 - 接口异常: %s
+Traceback (most recent call last):
+
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/gevent/baseserver.py", line 34, in _handle_and_close_when_done
+    return handle(*args_tuple)
+           │       └ (<gevent._socket3.socket at 0x1184e01c0 object, fd=17, family=2, type=1, proto=0>, ('127.0.0.1', 63794))
+           └ <bound method WSGIServer.handle of <WSGIServer at 0x103584890 fileno=15 address=0.0.0.0:5001>>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/gevent/pywsgi.py", line 1704, in handle
+    handler.handle()
+    │       └ <function WSGIHandler.handle at 0x11841f420>
+    └ <gevent.pywsgi.WSGIHandler object at 0x118526fd0>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/gevent/pywsgi.py", line 578, in handle
+    result = self.handle_one_request()
+             │    └ <function WSGIHandler.handle_one_request at 0x11841f740>
+             └ <gevent.pywsgi.WSGIHandler object at 0x118526fd0>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/gevent/pywsgi.py", line 808, in handle_one_request
+    self.handle_one_response()
+    │    └ <function WSGIHandler.handle_one_response at 0x11841fec0>
+    └ <gevent.pywsgi.WSGIHandler object at 0x118526fd0>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/gevent/pywsgi.py", line 1111, in handle_one_response
+    self.run_application()
+    │    └ <function WSGIHandler.run_application at 0x11841fe20>
+    └ <gevent.pywsgi.WSGIHandler object at 0x118526fd0>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/gevent/pywsgi.py", line 1058, in run_application
+    self.process_result()
+    │    └ <function WSGIHandler.process_result at 0x11841fd80>
+    └ <gevent.pywsgi.WSGIHandler object at 0x118526fd0>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/gevent/pywsgi.py", line 1042, in process_result
+    for data in self.result:
+                │    └ <generator object DebuggedApplication.debug_application at 0x1182d7100>
+                └ <gevent.pywsgi.WSGIHandler object at 0x118526fd0>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/werkzeug/debug/__init__.py", line 343, in debug_application
+    app_iter = self.app(environ, start_response)
+               │    │   │        └ <bound method WSGIHandler.start_response of <gevent.pywsgi.WSGIHandler object at 0x118526fd0>>
+               │    │   └ {'GATEWAY_INTERFACE': 'CGI/1.1', 'SERVER_SOFTWARE': 'gevent/20.0 Python/3.11', 'SCRIPT_NAME': '', 'wsgi.version': (1, 0), 'ws...
+               │    └ <bound method Flask.wsgi_app of <Flask 'web_app'>>
+               └ <werkzeug.debug.DebuggedApplication object at 0x107b60f90>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/flask/app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+               │    └ <function Flask.full_dispatch_request at 0x1026fb880>
+               └ <Flask 'web_app'>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/flask/app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+         │    └ <function Flask.dispatch_request at 0x1026fb7e0>
+         └ <Flask 'web_app'>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/flask/app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           │    │           │    │              │    │            └ {}
+           │    │           │    │              │    └ 'get_account'
+           │    │           │    │              └ <Rule '/api/account' (HEAD, GET, OPTIONS) -> get_account>
+           │    │           │    └ {'static': <function Flask.__init__.<locals>.<lambda> at 0x107b040e0>, 'index': <function index at 0x118393ce0>, 'get_account...
+           │    │           └ <Flask 'web_app'>
+           │    └ <function Flask.ensure_sync at 0x1026fba60>
+           └ <Flask 'web_app'>
+
+> File "/Users/dujian/aster/aster_bot_python/web_app.py", line 78, in get_account
+    account = ex.get_account()
+              │  └ <function Aster.get_account at 0x102cf2160>
+              └ <exchanges.aster.Aster object at 0x118311950>
+
+  File "/Users/dujian/aster/aster_bot_python/exchanges/aster.py", line 602, in get_account
+    response = self._signed_request('GET', '/fapi/v2/account')
+               │    └ <function Aster._signed_request at 0x102cf1940>
+               └ <exchanges.aster.Aster object at 0x118311950>
+
+  File "/Users/dujian/aster/aster_bot_python/exchanges/aster.py", line 419, in _signed_request
+    raise Exception(f"API请求失败: {response.status_code} - {response.text}")
+
+Exception: API请求失败: 400 - {"code":-1021,"msg":"Timestamp for this request is outside of the recvWindow."}
+2025-07-07 15:15:50 | INFO     | __main__:get_account:57 - 收到的exchange参数: %s
+2025-07-07 15:15:50 | INFO     | __main__:get_account:59 - ex实例类型: %s
+2025-07-07 15:15:50 | INFO     | __main__:get_account:61 - web_app.py用的BACKPACK_API_KEY: %s
+2025-07-07 15:15:50 | INFO     | __main__:get_account:62 - web_app.py用的BACKPACK_API_SECRET: %s
+2025-07-07 15:15:50 | INFO     | __main__:get_account:57 - 收到的exchange参数: %s
+2025-07-07 15:15:50 | INFO     | __main__:get_account:59 - ex实例类型: %s
+2025-07-07 15:15:50 | INFO     | __main__:get_account:61 - web_app.py用的BACKPACK_API_KEY: %s
+2025-07-07 15:15:50 | INFO     | __main__:get_account:62 - web_app.py用的BACKPACK_API_SECRET: %s
+2025-07-07 15:15:51 | ERROR    | __main__:get_account:96 - 接口异常: %s
+Traceback (most recent call last):
+
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/gevent/baseserver.py", line 34, in _handle_and_close_when_done
+    return handle(*args_tuple)
+           │       └ (<gevent._socket3.socket at 0x11842db40 object, fd=26, family=2, type=1, proto=0>, ('127.0.0.1', 63818))
+           └ <bound method WSGIServer.handle of <WSGIServer at 0x103584890 fileno=15 address=0.0.0.0:5001>>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/gevent/pywsgi.py", line 1704, in handle
+    handler.handle()
+    │       └ <function WSGIHandler.handle at 0x11841f420>
+    └ <gevent.pywsgi.WSGIHandler object at 0x1191552d0>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/gevent/pywsgi.py", line 578, in handle
+    result = self.handle_one_request()
+             │    └ <function WSGIHandler.handle_one_request at 0x11841f740>
+             └ <gevent.pywsgi.WSGIHandler object at 0x1191552d0>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/gevent/pywsgi.py", line 808, in handle_one_request
+    self.handle_one_response()
+    │    └ <function WSGIHandler.handle_one_response at 0x11841fec0>
+    └ <gevent.pywsgi.WSGIHandler object at 0x1191552d0>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/gevent/pywsgi.py", line 1111, in handle_one_response
+    self.run_application()
+    │    └ <function WSGIHandler.run_application at 0x11841fe20>
+    └ <gevent.pywsgi.WSGIHandler object at 0x1191552d0>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/gevent/pywsgi.py", line 1058, in run_application
+    self.process_result()
+    │    └ <function WSGIHandler.process_result at 0x11841fd80>
+    └ <gevent.pywsgi.WSGIHandler object at 0x1191552d0>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/gevent/pywsgi.py", line 1042, in process_result
+    for data in self.result:
+                │    └ <generator object DebuggedApplication.debug_application at 0x1182d7600>
+                └ <gevent.pywsgi.WSGIHandler object at 0x1191552d0>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/werkzeug/debug/__init__.py", line 343, in debug_application
+    app_iter = self.app(environ, start_response)
+               │    │   │        └ <bound method WSGIHandler.start_response of <gevent.pywsgi.WSGIHandler object at 0x1191552d0>>
+               │    │   └ {'GATEWAY_INTERFACE': 'CGI/1.1', 'SERVER_SOFTWARE': 'gevent/20.0 Python/3.11', 'SCRIPT_NAME': '', 'wsgi.version': (1, 0), 'ws...
+               │    └ <bound method Flask.wsgi_app of <Flask 'web_app'>>
+               └ <werkzeug.debug.DebuggedApplication object at 0x107b60f90>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/flask/app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+               │    └ <function Flask.full_dispatch_request at 0x1026fb880>
+               └ <Flask 'web_app'>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/flask/app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+         │    └ <function Flask.dispatch_request at 0x1026fb7e0>
+         └ <Flask 'web_app'>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/flask/app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           │    │           │    │              │    │            └ {}
+           │    │           │    │              │    └ 'get_account'
+           │    │           │    │              └ <Rule '/api/account' (HEAD, GET, OPTIONS) -> get_account>
+           │    │           │    └ {'static': <function Flask.__init__.<locals>.<lambda> at 0x107b040e0>, 'index': <function index at 0x118393ce0>, 'get_account...
+           │    │           └ <Flask 'web_app'>
+           │    └ <function Flask.ensure_sync at 0x1026fba60>
+           └ <Flask 'web_app'>
+
+> File "/Users/dujian/aster/aster_bot_python/web_app.py", line 78, in get_account
+    account = ex.get_account()
+              │  └ <function Aster.get_account at 0x102cf2160>
+              └ <exchanges.aster.Aster object at 0x118311950>
+
+  File "/Users/dujian/aster/aster_bot_python/exchanges/aster.py", line 602, in get_account
+    response = self._signed_request('GET', '/fapi/v2/account')
+               │    └ <function Aster._signed_request at 0x102cf1940>
+               └ <exchanges.aster.Aster object at 0x118311950>
+
+  File "/Users/dujian/aster/aster_bot_python/exchanges/aster.py", line 419, in _signed_request
+    raise Exception(f"API请求失败: {response.status_code} - {response.text}")
+
+Exception: API请求失败: 400 - {"code":-1021,"msg":"Timestamp for this request is outside of the recvWindow."}
+2025-07-07 15:15:51 | INFO     | __main__:get_account:57 - 收到的exchange参数: %s
+2025-07-07 15:15:51 | INFO     | __main__:get_account:59 - ex实例类型: %s
+2025-07-07 15:15:51 | INFO     | __main__:get_account:61 - web_app.py用的BACKPACK_API_KEY: %s
+2025-07-07 15:15:51 | INFO     | __main__:get_account:62 - web_app.py用的BACKPACK_API_SECRET: %s
+2025-07-07 15:15:52 | INFO     | __main__:get_account:57 - 收到的exchange参数: %s
+2025-07-07 15:15:52 | INFO     | __main__:get_account:59 - ex实例类型: %s
+2025-07-07 15:15:52 | INFO     | __main__:get_account:61 - web_app.py用的BACKPACK_API_KEY: %s
+2025-07-07 15:15:52 | INFO     | __main__:get_account:62 - web_app.py用的BACKPACK_API_SECRET: %s
+2025-07-07 15:15:53 | ERROR    | __main__:get_account:96 - 接口异常: %s
+Traceback (most recent call last):
+
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/gevent/baseserver.py", line 34, in _handle_and_close_when_done
+    return handle(*args_tuple)
+           │       └ (<gevent._socket3.socket at 0x11842db40 object, fd=26, family=2, type=1, proto=0>, ('127.0.0.1', 63818))
+           └ <bound method WSGIServer.handle of <WSGIServer at 0x103584890 fileno=15 address=0.0.0.0:5001>>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/gevent/pywsgi.py", line 1704, in handle
+    handler.handle()
+    │       └ <function WSGIHandler.handle at 0x11841f420>
+    └ <gevent.pywsgi.WSGIHandler object at 0x1191552d0>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/gevent/pywsgi.py", line 578, in handle
+    result = self.handle_one_request()
+             │    └ <function WSGIHandler.handle_one_request at 0x11841f740>
+             └ <gevent.pywsgi.WSGIHandler object at 0x1191552d0>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/gevent/pywsgi.py", line 808, in handle_one_request
+    self.handle_one_response()
+    │    └ <function WSGIHandler.handle_one_response at 0x11841fec0>
+    └ <gevent.pywsgi.WSGIHandler object at 0x1191552d0>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/gevent/pywsgi.py", line 1111, in handle_one_response
+    self.run_application()
+    │    └ <function WSGIHandler.run_application at 0x11841fe20>
+    └ <gevent.pywsgi.WSGIHandler object at 0x1191552d0>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/gevent/pywsgi.py", line 1058, in run_application
+    self.process_result()
+    │    └ <function WSGIHandler.process_result at 0x11841fd80>
+    └ <gevent.pywsgi.WSGIHandler object at 0x1191552d0>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/gevent/pywsgi.py", line 1042, in process_result
+    for data in self.result:
+                │    └ <generator object DebuggedApplication.debug_application at 0x1182d7600>
+                └ <gevent.pywsgi.WSGIHandler object at 0x1191552d0>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/werkzeug/debug/__init__.py", line 343, in debug_application
+    app_iter = self.app(environ, start_response)
+               │    │   │        └ <bound method WSGIHandler.start_response of <gevent.pywsgi.WSGIHandler object at 0x1191552d0>>
+               │    │   └ {'GATEWAY_INTERFACE': 'CGI/1.1', 'SERVER_SOFTWARE': 'gevent/20.0 Python/3.11', 'SCRIPT_NAME': '', 'wsgi.version': (1, 0), 'ws...
+               │    └ <bound method Flask.wsgi_app of <Flask 'web_app'>>
+               └ <werkzeug.debug.DebuggedApplication object at 0x107b60f90>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/flask/app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+               │    └ <function Flask.full_dispatch_request at 0x1026fb880>
+               └ <Flask 'web_app'>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/flask/app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+         │    └ <function Flask.dispatch_request at 0x1026fb7e0>
+         └ <Flask 'web_app'>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/flask/app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           │    │           │    │              │    │            └ {}
+           │    │           │    │              │    └ 'get_account'
+           │    │           │    │              └ <Rule '/api/account' (HEAD, GET, OPTIONS) -> get_account>
+           │    │           │    └ {'static': <function Flask.__init__.<locals>.<lambda> at 0x107b040e0>, 'index': <function index at 0x118393ce0>, 'get_account...
+           │    │           └ <Flask 'web_app'>
+           │    └ <function Flask.ensure_sync at 0x1026fba60>
+           └ <Flask 'web_app'>
+
+> File "/Users/dujian/aster/aster_bot_python/web_app.py", line 78, in get_account
+    account = ex.get_account()
+              │  └ <function Aster.get_account at 0x102cf2160>
+              └ <exchanges.aster.Aster object at 0x118311950>
+
+  File "/Users/dujian/aster/aster_bot_python/exchanges/aster.py", line 602, in get_account
+    response = self._signed_request('GET', '/fapi/v2/account')
+               │    └ <function Aster._signed_request at 0x102cf1940>
+               └ <exchanges.aster.Aster object at 0x118311950>
+
+  File "/Users/dujian/aster/aster_bot_python/exchanges/aster.py", line 419, in _signed_request
+    raise Exception(f"API请求失败: {response.status_code} - {response.text}")
+
+Exception: API请求失败: 400 - {"code":-1021,"msg":"Timestamp for this request is outside of the recvWindow."}
+2025-07-07 15:15:53 | INFO     | __main__:get_account:57 - 收到的exchange参数: %s
+2025-07-07 15:15:53 | INFO     | __main__:get_account:59 - ex实例类型: %s
+2025-07-07 15:15:53 | INFO     | __main__:get_account:61 - web_app.py用的BACKPACK_API_KEY: %s
+2025-07-07 15:15:53 | INFO     | __main__:get_account:62 - web_app.py用的BACKPACK_API_SECRET: %s
+2025-07-07 15:15:53 | ERROR    | __main__:get_account:96 - 接口异常: %s
+Traceback (most recent call last):
+
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/gevent/baseserver.py", line 34, in _handle_and_close_when_done
+    return handle(*args_tuple)
+           │       └ (<gevent._socket3.socket at 0x11842db40 object, fd=26, family=2, type=1, proto=0>, ('127.0.0.1', 63818))
+           └ <bound method WSGIServer.handle of <WSGIServer at 0x103584890 fileno=15 address=0.0.0.0:5001>>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/gevent/pywsgi.py", line 1704, in handle
+    handler.handle()
+    │       └ <function WSGIHandler.handle at 0x11841f420>
+    └ <gevent.pywsgi.WSGIHandler object at 0x1191552d0>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/gevent/pywsgi.py", line 578, in handle
+    result = self.handle_one_request()
+             │    └ <function WSGIHandler.handle_one_request at 0x11841f740>
+             └ <gevent.pywsgi.WSGIHandler object at 0x1191552d0>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/gevent/pywsgi.py", line 808, in handle_one_request
+    self.handle_one_response()
+    │    └ <function WSGIHandler.handle_one_response at 0x11841fec0>
+    └ <gevent.pywsgi.WSGIHandler object at 0x1191552d0>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/gevent/pywsgi.py", line 1111, in handle_one_response
+    self.run_application()
+    │    └ <function WSGIHandler.run_application at 0x11841fe20>
+    └ <gevent.pywsgi.WSGIHandler object at 0x1191552d0>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/gevent/pywsgi.py", line 1058, in run_application
+    self.process_result()
+    │    └ <function WSGIHandler.process_result at 0x11841fd80>
+    └ <gevent.pywsgi.WSGIHandler object at 0x1191552d0>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/gevent/pywsgi.py", line 1042, in process_result
+    for data in self.result:
+                │    └ <generator object DebuggedApplication.debug_application at 0x1182d7600>
+                └ <gevent.pywsgi.WSGIHandler object at 0x1191552d0>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/werkzeug/debug/__init__.py", line 343, in debug_application
+    app_iter = self.app(environ, start_response)
+               │    │   │        └ <bound method WSGIHandler.start_response of <gevent.pywsgi.WSGIHandler object at 0x1191552d0>>
+               │    │   └ {'GATEWAY_INTERFACE': 'CGI/1.1', 'SERVER_SOFTWARE': 'gevent/20.0 Python/3.11', 'SCRIPT_NAME': '', 'wsgi.version': (1, 0), 'ws...
+               │    └ <bound method Flask.wsgi_app of <Flask 'web_app'>>
+               └ <werkzeug.debug.DebuggedApplication object at 0x107b60f90>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/flask/app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+               │    └ <function Flask.full_dispatch_request at 0x1026fb880>
+               └ <Flask 'web_app'>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/flask/app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+         │    └ <function Flask.dispatch_request at 0x1026fb7e0>
+         └ <Flask 'web_app'>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/flask/app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           │    │           │    │              │    │            └ {}
+           │    │           │    │              │    └ 'get_account'
+           │    │           │    │              └ <Rule '/api/account' (HEAD, GET, OPTIONS) -> get_account>
+           │    │           │    └ {'static': <function Flask.__init__.<locals>.<lambda> at 0x107b040e0>, 'index': <function index at 0x118393ce0>, 'get_account...
+           │    │           └ <Flask 'web_app'>
+           │    └ <function Flask.ensure_sync at 0x1026fba60>
+           └ <Flask 'web_app'>
+
+> File "/Users/dujian/aster/aster_bot_python/web_app.py", line 78, in get_account
+    account = ex.get_account()
+              │  └ <function Aster.get_account at 0x102cf2160>
+              └ <exchanges.aster.Aster object at 0x118311950>
+
+  File "/Users/dujian/aster/aster_bot_python/exchanges/aster.py", line 602, in get_account
+    response = self._signed_request('GET', '/fapi/v2/account')
+               │    └ <function Aster._signed_request at 0x102cf1940>
+               └ <exchanges.aster.Aster object at 0x118311950>
+
+  File "/Users/dujian/aster/aster_bot_python/exchanges/aster.py", line 419, in _signed_request
+    raise Exception(f"API请求失败: {response.status_code} - {response.text}")
+
+Exception: API请求失败: 400 - {"code":-1021,"msg":"Timestamp for this request is outside of the recvWindow."}

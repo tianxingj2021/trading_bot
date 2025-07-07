@@ -1,0 +1,760 @@
+2025-07-07 15:00:34 | INFO     | __main__:get_account:56 - 收到的exchange参数: %s
+2025-07-07 15:00:34 | INFO     | __main__:get_account:58 - ex实例类型: %s
+2025-07-07 15:00:34 | INFO     | __main__:get_account:60 - web_app.py用的BACKPACK_API_KEY: %s
+2025-07-07 15:00:34 | INFO     | __main__:get_account:61 - web_app.py用的BACKPACK_API_SECRET: %s
+2025-07-07 15:00:34 | ERROR    | __main__:get_account:95 - 接口异常: %s
+Traceback (most recent call last):
+
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/gevent/baseserver.py", line 34, in _handle_and_close_when_done
+    return handle(*args_tuple)
+           │       └ (<gevent._socket3.socket at 0x1080f3fa0 object, fd=26, family=2, type=1, proto=0>, ('127.0.0.1', 60905))
+           └ <bound method WSGIServer.handle of <WSGIServer at 0x107b53550 fileno=21 address=0.0.0.0:5001>>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/gevent/pywsgi.py", line 1704, in handle
+    handler.handle()
+    │       └ <function WSGIHandler.handle at 0x10810c7c0>
+    └ <gevent.pywsgi.WSGIHandler object at 0x1081d16d0>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/gevent/pywsgi.py", line 578, in handle
+    result = self.handle_one_request()
+             │    └ <function WSGIHandler.handle_one_request at 0x10810cae0>
+             └ <gevent.pywsgi.WSGIHandler object at 0x1081d16d0>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/gevent/pywsgi.py", line 808, in handle_one_request
+    self.handle_one_response()
+    │    └ <function WSGIHandler.handle_one_response at 0x10810d260>
+    └ <gevent.pywsgi.WSGIHandler object at 0x1081d16d0>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/gevent/pywsgi.py", line 1111, in handle_one_response
+    self.run_application()
+    │    └ <function WSGIHandler.run_application at 0x10810d1c0>
+    └ <gevent.pywsgi.WSGIHandler object at 0x1081d16d0>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/gevent/pywsgi.py", line 1058, in run_application
+    self.process_result()
+    │    └ <function WSGIHandler.process_result at 0x10810d120>
+    └ <gevent.pywsgi.WSGIHandler object at 0x1081d16d0>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/gevent/pywsgi.py", line 1042, in process_result
+    for data in self.result:
+                │    └ <generator object DebuggedApplication.debug_application at 0x107fe7380>
+                └ <gevent.pywsgi.WSGIHandler object at 0x1081d16d0>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/werkzeug/debug/__init__.py", line 343, in debug_application
+    app_iter = self.app(environ, start_response)
+               │    │   │        └ <bound method WSGIHandler.start_response of <gevent.pywsgi.WSGIHandler object at 0x1081d16d0>>
+               │    │   └ {'GATEWAY_INTERFACE': 'CGI/1.1', 'SERVER_SOFTWARE': 'gevent/20.0 Python/3.11', 'SCRIPT_NAME': '', 'wsgi.version': (1, 0), 'ws...
+               │    └ <bound method Flask.wsgi_app of <Flask 'web_app'>>
+               └ <werkzeug.debug.DebuggedApplication object at 0x107e65350>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/flask/app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+               │    └ <function Flask.full_dispatch_request at 0x1044b89a0>
+               └ <Flask 'web_app'>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/flask/app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+         │    └ <function Flask.dispatch_request at 0x1044b8900>
+         └ <Flask 'web_app'>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/flask/app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           │    │           │    │              │    │            └ {}
+           │    │           │    │              │    └ 'get_account'
+           │    │           │    │              └ <Rule '/api/account' (OPTIONS, GET, HEAD) -> get_account>
+           │    │           │    └ {'static': <function Flask.__init__.<locals>.<lambda> at 0x107e79760>, 'index': <function index at 0x107e6f7e0>, 'get_account...
+           │    │           └ <Flask 'web_app'>
+           │    └ <function Flask.ensure_sync at 0x1044b8b80>
+           └ <Flask 'web_app'>
+
+> File "/Users/dujian/aster/aster_bot_python/web_app.py", line 77, in get_account
+    account = ex.get_account()
+              │  └ <function Aster.get_account at 0x104907c40>
+              └ <exchanges.aster.Aster object at 0x10496fd10>
+
+  File "/Users/dujian/aster/aster_bot_python/exchanges/aster.py", line 602, in get_account
+    response = self._signed_request('GET', '/fapi/v2/account')
+               │    └ <function Aster._signed_request at 0x104907420>
+               └ <exchanges.aster.Aster object at 0x10496fd10>
+
+  File "/Users/dujian/aster/aster_bot_python/exchanges/aster.py", line 410, in _signed_request
+    response = requests.get(url, params=params, headers=headers)
+               │        │   │           │               └ {'X-MBX-APIKEY': '2edb2ff9f6e793b8367b48c7fbfbf57fef0114e872f725e6e643bbc0f21869e3'}
+               │        │   │           └ {'timestamp': 1751871634582, 'recvWindow': 5000, 'signature': '126313120fcb6490cb557458a6483e69fe237021b81e7130b59d7f32cadaaf...
+               │        │   └ 'https://fapi.asterdex.com/fapi/v2/account'
+               │        └ <function get at 0x1048c6660>
+               └ <module 'requests' from '/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/requests/__init__.py'>
+
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/requests/api.py", line 73, in get
+    return request("get", url, params=params, **kwargs)
+           │              │           │         └ {'headers': {'X-MBX-APIKEY': '2edb2ff9f6e793b8367b48c7fbfbf57fef0114e872f725e6e643bbc0f21869e3'}}
+           │              │           └ {'timestamp': 1751871634582, 'recvWindow': 5000, 'signature': '126313120fcb6490cb557458a6483e69fe237021b81e7130b59d7f32cadaaf...
+           │              └ 'https://fapi.asterdex.com/fapi/v2/account'
+           └ <function request at 0x1048c6520>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/requests/api.py", line 59, in request
+    return session.request(method=method, url=url, **kwargs)
+           │       │              │           │      └ {'params': {'timestamp': 1751871634582, 'recvWindow': 5000, 'signature': '126313120fcb6490cb557458a6483e69fe237021b81e7130b59...
+           │       │              │           └ 'https://fapi.asterdex.com/fapi/v2/account'
+           │       │              └ 'get'
+           │       └ <function Session.request at 0x1049044a0>
+           └ <requests.sessions.Session object at 0x10812aad0>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/requests/sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+           │    │    │       └ {'timeout': None, 'allow_redirects': True, 'proxies': OrderedDict([('http', 'http://127.0.0.1:1087'), ('https', 'http://127.0...
+           │    │    └ <PreparedRequest [GET]>
+           │    └ <function Session.send at 0x1049049a0>
+           └ <requests.sessions.Session object at 0x10812aad0>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/requests/sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+        │       │    │          └ {'timeout': None, 'proxies': OrderedDict([('http', 'http://127.0.0.1:1087'), ('https', 'http://127.0.0.1:1087')]), 'stream': ...
+        │       │    └ <PreparedRequest [GET]>
+        │       └ <function HTTPAdapter.send at 0x1048fbce0>
+        └ <requests.adapters.HTTPAdapter object at 0x1081d3050>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/requests/adapters.py", line 667, in send
+    resp = conn.urlopen(
+           │    └ <function HTTPConnectionPool.urlopen at 0x10472f9c0>
+           └ <urllib3.connectionpool.HTTPSConnectionPool object at 0x1081f0b10>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/urllib3/connectionpool.py", line 773, in urlopen
+    self._prepare_proxy(conn)
+    │    │              └ None
+    │    └ <function HTTPSConnectionPool._prepare_proxy at 0x10472fc40>
+    └ <urllib3.connectionpool.HTTPSConnectionPool object at 0x1081f0b10>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/urllib3/connectionpool.py", line 1042, in _prepare_proxy
+    conn.connect()
+    │    └ <function HTTPSConnection.connect at 0x1046fb920>
+    └ <urllib3.connection.HTTPSConnection object at 0x1081f0690>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/urllib3/connection.py", line 790, in connect
+    sock_and_verified = _ssl_wrap_socket_and_match_hostname(
+                        └ <function _ssl_wrap_socket_and_match_hostname at 0x1046f9da0>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/urllib3/connection.py", line 931, in _ssl_wrap_socket_and_match_hostname
+    context.verify_mode = resolve_cert_reqs(cert_reqs)
+    │       │             │                 └ 'CERT_REQUIRED'
+    │       │             └ <function resolve_cert_reqs at 0x1046bae80>
+    │       └ <property object at 0x1037721b0>
+    └ <ssl.SSLContext object at 0x1048e8290>
+
+  File "/opt/homebrew/Cellar/python@3.11/3.11.12_1/Frameworks/Python.framework/Versions/3.11/lib/python3.11/ssl.py", line 742, in verify_mode
+    super(SSLContext, SSLContext).verify_mode.__set__(self, value)
+          │           │                               │     └ <VerifyMode.CERT_REQUIRED: 2>
+          │           │                               └ <ssl.SSLContext object at 0x1048e8290>
+          │           └ <class 'gevent.ssl.SSLContext'>
+          └ <class 'gevent.ssl.SSLContext'>
+
+  File "/opt/homebrew/Cellar/python@3.11/3.11.12_1/Frameworks/Python.framework/Versions/3.11/lib/python3.11/ssl.py", line 742, in verify_mode
+    super(SSLContext, SSLContext).verify_mode.__set__(self, value)
+          │           │                               │     └ <VerifyMode.CERT_REQUIRED: 2>
+          │           │                               └ <ssl.SSLContext object at 0x1048e8290>
+          │           └ <class 'gevent.ssl.SSLContext'>
+          └ <class 'gevent.ssl.SSLContext'>
+
+  File "/opt/homebrew/Cellar/python@3.11/3.11.12_1/Frameworks/Python.framework/Versions/3.11/lib/python3.11/ssl.py", line 742, in verify_mode
+    super(SSLContext, SSLContext).verify_mode.__set__(self, value)
+          │           │                               │     └ <VerifyMode.CERT_REQUIRED: 2>
+          │           │                               └ <ssl.SSLContext object at 0x1048e8290>
+          │           └ <class 'gevent.ssl.SSLContext'>
+          └ <class 'gevent.ssl.SSLContext'>
+  [Previous line repeated 482 more times]
+
+RecursionError: maximum recursion depth exceeded while calling a Python object
+2025-07-07 15:00:50 | INFO     | __main__:get_account:56 - 收到的exchange参数: %s
+2025-07-07 15:00:50 | INFO     | __main__:get_account:58 - ex实例类型: %s
+2025-07-07 15:00:50 | INFO     | __main__:get_account:60 - web_app.py用的BACKPACK_API_KEY: %s
+2025-07-07 15:00:50 | INFO     | __main__:get_account:61 - web_app.py用的BACKPACK_API_SECRET: %s
+2025-07-07 15:00:50 | INFO     | __main__:get_account:56 - 收到的exchange参数: %s
+2025-07-07 15:00:50 | INFO     | __main__:get_account:58 - ex实例类型: %s
+2025-07-07 15:00:50 | INFO     | __main__:get_account:60 - web_app.py用的BACKPACK_API_KEY: %s
+2025-07-07 15:00:50 | INFO     | __main__:get_account:61 - web_app.py用的BACKPACK_API_SECRET: %s
+2025-07-07 15:00:50 | ERROR    | __main__:get_account:95 - 接口异常: %s
+Traceback (most recent call last):
+
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/gevent/baseserver.py", line 34, in _handle_and_close_when_done
+    return handle(*args_tuple)
+           │       └ (<gevent._socket3.socket at 0x108601300 object, fd=28, family=2, type=1, proto=0>, ('127.0.0.1', 60976))
+           └ <bound method WSGIServer.handle of <WSGIServer at 0x107b53550 fileno=21 address=0.0.0.0:5001>>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/gevent/pywsgi.py", line 1704, in handle
+    handler.handle()
+    │       └ <function WSGIHandler.handle at 0x10810c7c0>
+    └ <gevent.pywsgi.WSGIHandler object at 0x108618c50>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/gevent/pywsgi.py", line 578, in handle
+    result = self.handle_one_request()
+             │    └ <function WSGIHandler.handle_one_request at 0x10810cae0>
+             └ <gevent.pywsgi.WSGIHandler object at 0x108618c50>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/gevent/pywsgi.py", line 808, in handle_one_request
+    self.handle_one_response()
+    │    └ <function WSGIHandler.handle_one_response at 0x10810d260>
+    └ <gevent.pywsgi.WSGIHandler object at 0x108618c50>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/gevent/pywsgi.py", line 1111, in handle_one_response
+    self.run_application()
+    │    └ <function WSGIHandler.run_application at 0x10810d1c0>
+    └ <gevent.pywsgi.WSGIHandler object at 0x108618c50>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/gevent/pywsgi.py", line 1058, in run_application
+    self.process_result()
+    │    └ <function WSGIHandler.process_result at 0x10810d120>
+    └ <gevent.pywsgi.WSGIHandler object at 0x108618c50>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/gevent/pywsgi.py", line 1042, in process_result
+    for data in self.result:
+                │    └ <generator object DebuggedApplication.debug_application at 0x107fe7380>
+                └ <gevent.pywsgi.WSGIHandler object at 0x108618c50>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/werkzeug/debug/__init__.py", line 343, in debug_application
+    app_iter = self.app(environ, start_response)
+               │    │   │        └ <bound method WSGIHandler.start_response of <gevent.pywsgi.WSGIHandler object at 0x108618c50>>
+               │    │   └ {'GATEWAY_INTERFACE': 'CGI/1.1', 'SERVER_SOFTWARE': 'gevent/20.0 Python/3.11', 'SCRIPT_NAME': '', 'wsgi.version': (1, 0), 'ws...
+               │    └ <bound method Flask.wsgi_app of <Flask 'web_app'>>
+               └ <werkzeug.debug.DebuggedApplication object at 0x107e65350>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/flask/app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+               │    └ <function Flask.full_dispatch_request at 0x1044b89a0>
+               └ <Flask 'web_app'>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/flask/app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+         │    └ <function Flask.dispatch_request at 0x1044b8900>
+         └ <Flask 'web_app'>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/flask/app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           │    │           │    │              │    │            └ {}
+           │    │           │    │              │    └ 'get_account'
+           │    │           │    │              └ <Rule '/api/account' (OPTIONS, GET, HEAD) -> get_account>
+           │    │           │    └ {'static': <function Flask.__init__.<locals>.<lambda> at 0x107e79760>, 'index': <function index at 0x107e6f7e0>, 'get_account...
+           │    │           └ <Flask 'web_app'>
+           │    └ <function Flask.ensure_sync at 0x1044b8b80>
+           └ <Flask 'web_app'>
+
+> File "/Users/dujian/aster/aster_bot_python/web_app.py", line 77, in get_account
+    account = ex.get_account()
+              │  └ <function Aster.get_account at 0x104907c40>
+              └ <exchanges.aster.Aster object at 0x10496fd10>
+
+  File "/Users/dujian/aster/aster_bot_python/exchanges/aster.py", line 602, in get_account
+    response = self._signed_request('GET', '/fapi/v2/account')
+               │    └ <function Aster._signed_request at 0x104907420>
+               └ <exchanges.aster.Aster object at 0x10496fd10>
+
+  File "/Users/dujian/aster/aster_bot_python/exchanges/aster.py", line 410, in _signed_request
+    response = requests.get(url, params=params, headers=headers)
+               │        │   │           │               └ {'X-MBX-APIKEY': '2edb2ff9f6e793b8367b48c7fbfbf57fef0114e872f725e6e643bbc0f21869e3'}
+               │        │   │           └ {'timestamp': 1751871650441, 'recvWindow': 5000, 'signature': 'a9ced2da573e12bcca644264cbc1c5c65916106cb6e8f5d81c932ef4c83abe...
+               │        │   └ 'https://fapi.asterdex.com/fapi/v2/account'
+               │        └ <function get at 0x1048c6660>
+               └ <module 'requests' from '/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/requests/__init__.py'>
+
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/requests/api.py", line 73, in get
+    return request("get", url, params=params, **kwargs)
+           │              │           │         └ {'headers': {'X-MBX-APIKEY': '2edb2ff9f6e793b8367b48c7fbfbf57fef0114e872f725e6e643bbc0f21869e3'}}
+           │              │           └ {'timestamp': 1751871650441, 'recvWindow': 5000, 'signature': 'a9ced2da573e12bcca644264cbc1c5c65916106cb6e8f5d81c932ef4c83abe...
+           │              └ 'https://fapi.asterdex.com/fapi/v2/account'
+           └ <function request at 0x1048c6520>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/requests/api.py", line 59, in request
+    return session.request(method=method, url=url, **kwargs)
+           │       │              │           │      └ {'params': {'timestamp': 1751871650441, 'recvWindow': 5000, 'signature': 'a9ced2da573e12bcca644264cbc1c5c65916106cb6e8f5d81c9...
+           │       │              │           └ 'https://fapi.asterdex.com/fapi/v2/account'
+           │       │              └ 'get'
+           │       └ <function Session.request at 0x1049044a0>
+           └ <requests.sessions.Session object at 0x10861a150>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/requests/sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+           │    │    │       └ {'timeout': None, 'allow_redirects': True, 'proxies': OrderedDict([('http', 'http://127.0.0.1:1087'), ('https', 'http://127.0...
+           │    │    └ <PreparedRequest [GET]>
+           │    └ <function Session.send at 0x1049049a0>
+           └ <requests.sessions.Session object at 0x10861a150>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/requests/sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+        │       │    │          └ {'timeout': None, 'proxies': OrderedDict([('http', 'http://127.0.0.1:1087'), ('https', 'http://127.0.0.1:1087')]), 'stream': ...
+        │       │    └ <PreparedRequest [GET]>
+        │       └ <function HTTPAdapter.send at 0x1048fbce0>
+        └ <requests.adapters.HTTPAdapter object at 0x10861a6d0>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/requests/adapters.py", line 667, in send
+    resp = conn.urlopen(
+           │    └ <function HTTPConnectionPool.urlopen at 0x10472f9c0>
+           └ <urllib3.connectionpool.HTTPSConnectionPool object at 0x10861bfd0>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/urllib3/connectionpool.py", line 773, in urlopen
+    self._prepare_proxy(conn)
+    │    │              └ None
+    │    └ <function HTTPSConnectionPool._prepare_proxy at 0x10472fc40>
+    └ <urllib3.connectionpool.HTTPSConnectionPool object at 0x10861bfd0>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/urllib3/connectionpool.py", line 1042, in _prepare_proxy
+    conn.connect()
+    │    └ <function HTTPSConnection.connect at 0x1046fb920>
+    └ <urllib3.connection.HTTPSConnection object at 0x10861bc90>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/urllib3/connection.py", line 790, in connect
+    sock_and_verified = _ssl_wrap_socket_and_match_hostname(
+                        └ <function _ssl_wrap_socket_and_match_hostname at 0x1046f9da0>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/urllib3/connection.py", line 931, in _ssl_wrap_socket_and_match_hostname
+    context.verify_mode = resolve_cert_reqs(cert_reqs)
+    │       │             │                 └ 'CERT_REQUIRED'
+    │       │             └ <function resolve_cert_reqs at 0x1046bae80>
+    │       └ <property object at 0x1037721b0>
+    └ <ssl.SSLContext object at 0x1048e8290>
+
+  File "/opt/homebrew/Cellar/python@3.11/3.11.12_1/Frameworks/Python.framework/Versions/3.11/lib/python3.11/ssl.py", line 742, in verify_mode
+    super(SSLContext, SSLContext).verify_mode.__set__(self, value)
+          │           │                               │     └ <VerifyMode.CERT_REQUIRED: 2>
+          │           │                               └ <ssl.SSLContext object at 0x1048e8290>
+          │           └ <class 'gevent.ssl.SSLContext'>
+          └ <class 'gevent.ssl.SSLContext'>
+
+  File "/opt/homebrew/Cellar/python@3.11/3.11.12_1/Frameworks/Python.framework/Versions/3.11/lib/python3.11/ssl.py", line 742, in verify_mode
+    super(SSLContext, SSLContext).verify_mode.__set__(self, value)
+          │           │                               │     └ <VerifyMode.CERT_REQUIRED: 2>
+          │           │                               └ <ssl.SSLContext object at 0x1048e8290>
+          │           └ <class 'gevent.ssl.SSLContext'>
+          └ <class 'gevent.ssl.SSLContext'>
+
+  File "/opt/homebrew/Cellar/python@3.11/3.11.12_1/Frameworks/Python.framework/Versions/3.11/lib/python3.11/ssl.py", line 742, in verify_mode
+    super(SSLContext, SSLContext).verify_mode.__set__(self, value)
+          │           │                               │     └ <VerifyMode.CERT_REQUIRED: 2>
+          │           │                               └ <ssl.SSLContext object at 0x1048e8290>
+          │           └ <class 'gevent.ssl.SSLContext'>
+          └ <class 'gevent.ssl.SSLContext'>
+  [Previous line repeated 482 more times]
+
+RecursionError: maximum recursion depth exceeded while calling a Python object
+2025-07-07 15:00:50 | INFO     | __main__:get_account:56 - 收到的exchange参数: %s
+2025-07-07 15:00:50 | INFO     | __main__:get_account:58 - ex实例类型: %s
+2025-07-07 15:00:50 | INFO     | __main__:get_account:60 - web_app.py用的BACKPACK_API_KEY: %s
+2025-07-07 15:00:50 | INFO     | __main__:get_account:61 - web_app.py用的BACKPACK_API_SECRET: %s
+2025-07-07 15:00:50 | ERROR    | __main__:get_account:95 - 接口异常: %s
+Traceback (most recent call last):
+
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/gevent/baseserver.py", line 34, in _handle_and_close_when_done
+    return handle(*args_tuple)
+           │       └ (<gevent._socket3.socket at 0x1082742e0 object, fd=24, family=2, type=1, proto=0>, ('127.0.0.1', 60972))
+           └ <bound method WSGIServer.handle of <WSGIServer at 0x107b53550 fileno=21 address=0.0.0.0:5001>>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/gevent/pywsgi.py", line 1704, in handle
+    handler.handle()
+    │       └ <function WSGIHandler.handle at 0x10810c7c0>
+    └ <gevent.pywsgi.WSGIHandler object at 0x108202dd0>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/gevent/pywsgi.py", line 578, in handle
+    result = self.handle_one_request()
+             │    └ <function WSGIHandler.handle_one_request at 0x10810cae0>
+             └ <gevent.pywsgi.WSGIHandler object at 0x108202dd0>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/gevent/pywsgi.py", line 808, in handle_one_request
+    self.handle_one_response()
+    │    └ <function WSGIHandler.handle_one_response at 0x10810d260>
+    └ <gevent.pywsgi.WSGIHandler object at 0x108202dd0>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/gevent/pywsgi.py", line 1111, in handle_one_response
+    self.run_application()
+    │    └ <function WSGIHandler.run_application at 0x10810d1c0>
+    └ <gevent.pywsgi.WSGIHandler object at 0x108202dd0>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/gevent/pywsgi.py", line 1058, in run_application
+    self.process_result()
+    │    └ <function WSGIHandler.process_result at 0x10810d120>
+    └ <gevent.pywsgi.WSGIHandler object at 0x108202dd0>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/gevent/pywsgi.py", line 1042, in process_result
+    for data in self.result:
+                │    └ <generator object DebuggedApplication.debug_application at 0x107fe7380>
+                └ <gevent.pywsgi.WSGIHandler object at 0x108202dd0>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/werkzeug/debug/__init__.py", line 343, in debug_application
+    app_iter = self.app(environ, start_response)
+               │    │   │        └ <bound method WSGIHandler.start_response of <gevent.pywsgi.WSGIHandler object at 0x108202dd0>>
+               │    │   └ {'GATEWAY_INTERFACE': 'CGI/1.1', 'SERVER_SOFTWARE': 'gevent/20.0 Python/3.11', 'SCRIPT_NAME': '', 'wsgi.version': (1, 0), 'ws...
+               │    └ <bound method Flask.wsgi_app of <Flask 'web_app'>>
+               └ <werkzeug.debug.DebuggedApplication object at 0x107e65350>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/flask/app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+               │    └ <function Flask.full_dispatch_request at 0x1044b89a0>
+               └ <Flask 'web_app'>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/flask/app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+         │    └ <function Flask.dispatch_request at 0x1044b8900>
+         └ <Flask 'web_app'>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/flask/app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           │    │           │    │              │    │            └ {}
+           │    │           │    │              │    └ 'get_account'
+           │    │           │    │              └ <Rule '/api/account' (OPTIONS, GET, HEAD) -> get_account>
+           │    │           │    └ {'static': <function Flask.__init__.<locals>.<lambda> at 0x107e79760>, 'index': <function index at 0x107e6f7e0>, 'get_account...
+           │    │           └ <Flask 'web_app'>
+           │    └ <function Flask.ensure_sync at 0x1044b8b80>
+           └ <Flask 'web_app'>
+
+> File "/Users/dujian/aster/aster_bot_python/web_app.py", line 77, in get_account
+    account = ex.get_account()
+              │  └ <function Aster.get_account at 0x104907c40>
+              └ <exchanges.aster.Aster object at 0x10496fd10>
+
+  File "/Users/dujian/aster/aster_bot_python/exchanges/aster.py", line 602, in get_account
+    response = self._signed_request('GET', '/fapi/v2/account')
+               │    └ <function Aster._signed_request at 0x104907420>
+               └ <exchanges.aster.Aster object at 0x10496fd10>
+
+  File "/Users/dujian/aster/aster_bot_python/exchanges/aster.py", line 410, in _signed_request
+    response = requests.get(url, params=params, headers=headers)
+               │        │   │           │               └ {'X-MBX-APIKEY': '2edb2ff9f6e793b8367b48c7fbfbf57fef0114e872f725e6e643bbc0f21869e3'}
+               │        │   │           └ {'timestamp': 1751871650492, 'recvWindow': 5000, 'signature': 'd2798923a92c74c5229ee4dbb201865ea53ec534a3700947a774714e70ff92...
+               │        │   └ 'https://fapi.asterdex.com/fapi/v2/account'
+               │        └ <function get at 0x1048c6660>
+               └ <module 'requests' from '/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/requests/__init__.py'>
+
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/requests/api.py", line 73, in get
+    return request("get", url, params=params, **kwargs)
+           │              │           │         └ {'headers': {'X-MBX-APIKEY': '2edb2ff9f6e793b8367b48c7fbfbf57fef0114e872f725e6e643bbc0f21869e3'}}
+           │              │           └ {'timestamp': 1751871650492, 'recvWindow': 5000, 'signature': 'd2798923a92c74c5229ee4dbb201865ea53ec534a3700947a774714e70ff92...
+           │              └ 'https://fapi.asterdex.com/fapi/v2/account'
+           └ <function request at 0x1048c6520>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/requests/api.py", line 59, in request
+    return session.request(method=method, url=url, **kwargs)
+           │       │              │           │      └ {'params': {'timestamp': 1751871650492, 'recvWindow': 5000, 'signature': 'd2798923a92c74c5229ee4dbb201865ea53ec534a3700947a77...
+           │       │              │           └ 'https://fapi.asterdex.com/fapi/v2/account'
+           │       │              └ 'get'
+           │       └ <function Session.request at 0x1049044a0>
+           └ <requests.sessions.Session object at 0x108249090>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/requests/sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+           │    │    │       └ {'timeout': None, 'allow_redirects': True, 'proxies': OrderedDict([('http', 'http://127.0.0.1:1087'), ('https', 'http://127.0...
+           │    │    └ <PreparedRequest [GET]>
+           │    └ <function Session.send at 0x1049049a0>
+           └ <requests.sessions.Session object at 0x108249090>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/requests/sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+        │       │    │          └ {'timeout': None, 'proxies': OrderedDict([('http', 'http://127.0.0.1:1087'), ('https', 'http://127.0.0.1:1087')]), 'stream': ...
+        │       │    └ <PreparedRequest [GET]>
+        │       └ <function HTTPAdapter.send at 0x1048fbce0>
+        └ <requests.adapters.HTTPAdapter object at 0x108249610>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/requests/adapters.py", line 667, in send
+    resp = conn.urlopen(
+           │    └ <function HTTPConnectionPool.urlopen at 0x10472f9c0>
+           └ <urllib3.connectionpool.HTTPSConnectionPool object at 0x10824b090>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/urllib3/connectionpool.py", line 773, in urlopen
+    self._prepare_proxy(conn)
+    │    │              └ None
+    │    └ <function HTTPSConnectionPool._prepare_proxy at 0x10472fc40>
+    └ <urllib3.connectionpool.HTTPSConnectionPool object at 0x10824b090>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/urllib3/connectionpool.py", line 1042, in _prepare_proxy
+    conn.connect()
+    │    └ <function HTTPSConnection.connect at 0x1046fb920>
+    └ <urllib3.connection.HTTPSConnection object at 0x1086298d0>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/urllib3/connection.py", line 790, in connect
+    sock_and_verified = _ssl_wrap_socket_and_match_hostname(
+                        └ <function _ssl_wrap_socket_and_match_hostname at 0x1046f9da0>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/urllib3/connection.py", line 931, in _ssl_wrap_socket_and_match_hostname
+    context.verify_mode = resolve_cert_reqs(cert_reqs)
+    │       │             │                 └ 'CERT_REQUIRED'
+    │       │             └ <function resolve_cert_reqs at 0x1046bae80>
+    │       └ <property object at 0x1037721b0>
+    └ <ssl.SSLContext object at 0x1048e8290>
+
+  File "/opt/homebrew/Cellar/python@3.11/3.11.12_1/Frameworks/Python.framework/Versions/3.11/lib/python3.11/ssl.py", line 742, in verify_mode
+    super(SSLContext, SSLContext).verify_mode.__set__(self, value)
+          │           │                               │     └ <VerifyMode.CERT_REQUIRED: 2>
+          │           │                               └ <ssl.SSLContext object at 0x1048e8290>
+          │           └ <class 'gevent.ssl.SSLContext'>
+          └ <class 'gevent.ssl.SSLContext'>
+
+  File "/opt/homebrew/Cellar/python@3.11/3.11.12_1/Frameworks/Python.framework/Versions/3.11/lib/python3.11/ssl.py", line 742, in verify_mode
+    super(SSLContext, SSLContext).verify_mode.__set__(self, value)
+          │           │                               │     └ <VerifyMode.CERT_REQUIRED: 2>
+          │           │                               └ <ssl.SSLContext object at 0x1048e8290>
+          │           └ <class 'gevent.ssl.SSLContext'>
+          └ <class 'gevent.ssl.SSLContext'>
+
+  File "/opt/homebrew/Cellar/python@3.11/3.11.12_1/Frameworks/Python.framework/Versions/3.11/lib/python3.11/ssl.py", line 742, in verify_mode
+    super(SSLContext, SSLContext).verify_mode.__set__(self, value)
+          │           │                               │     └ <VerifyMode.CERT_REQUIRED: 2>
+          │           │                               └ <ssl.SSLContext object at 0x1048e8290>
+          │           └ <class 'gevent.ssl.SSLContext'>
+          └ <class 'gevent.ssl.SSLContext'>
+  [Previous line repeated 482 more times]
+
+RecursionError: maximum recursion depth exceeded while calling a Python object
+2025-07-07 15:00:50 | INFO     | __main__:get_account:56 - 收到的exchange参数: %s
+2025-07-07 15:00:50 | INFO     | __main__:get_account:58 - ex实例类型: %s
+2025-07-07 15:00:50 | INFO     | __main__:get_account:60 - web_app.py用的BACKPACK_API_KEY: %s
+2025-07-07 15:00:50 | INFO     | __main__:get_account:61 - web_app.py用的BACKPACK_API_SECRET: %s
+2025-07-07 15:00:50 | ERROR    | __main__:get_account:95 - 接口异常: %s
+Traceback (most recent call last):
+
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/gevent/baseserver.py", line 34, in _handle_and_close_when_done
+    return handle(*args_tuple)
+           │       └ (<gevent._socket3.socket at 0x108276a40 object, fd=25, family=2, type=1, proto=0>, ('127.0.0.1', 60973))
+           └ <bound method WSGIServer.handle of <WSGIServer at 0x107b53550 fileno=21 address=0.0.0.0:5001>>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/gevent/pywsgi.py", line 1704, in handle
+    handler.handle()
+    │       └ <function WSGIHandler.handle at 0x10810c7c0>
+    └ <gevent.pywsgi.WSGIHandler object at 0x1081f2510>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/gevent/pywsgi.py", line 578, in handle
+    result = self.handle_one_request()
+             │    └ <function WSGIHandler.handle_one_request at 0x10810cae0>
+             └ <gevent.pywsgi.WSGIHandler object at 0x1081f2510>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/gevent/pywsgi.py", line 808, in handle_one_request
+    self.handle_one_response()
+    │    └ <function WSGIHandler.handle_one_response at 0x10810d260>
+    └ <gevent.pywsgi.WSGIHandler object at 0x1081f2510>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/gevent/pywsgi.py", line 1111, in handle_one_response
+    self.run_application()
+    │    └ <function WSGIHandler.run_application at 0x10810d1c0>
+    └ <gevent.pywsgi.WSGIHandler object at 0x1081f2510>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/gevent/pywsgi.py", line 1058, in run_application
+    self.process_result()
+    │    └ <function WSGIHandler.process_result at 0x10810d120>
+    └ <gevent.pywsgi.WSGIHandler object at 0x1081f2510>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/gevent/pywsgi.py", line 1042, in process_result
+    for data in self.result:
+                │    └ <generator object DebuggedApplication.debug_application at 0x107fe7380>
+                └ <gevent.pywsgi.WSGIHandler object at 0x1081f2510>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/werkzeug/debug/__init__.py", line 343, in debug_application
+    app_iter = self.app(environ, start_response)
+               │    │   │        └ <bound method WSGIHandler.start_response of <gevent.pywsgi.WSGIHandler object at 0x1081f2510>>
+               │    │   └ {'GATEWAY_INTERFACE': 'CGI/1.1', 'SERVER_SOFTWARE': 'gevent/20.0 Python/3.11', 'SCRIPT_NAME': '', 'wsgi.version': (1, 0), 'ws...
+               │    └ <bound method Flask.wsgi_app of <Flask 'web_app'>>
+               └ <werkzeug.debug.DebuggedApplication object at 0x107e65350>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/flask/app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+               │    └ <function Flask.full_dispatch_request at 0x1044b89a0>
+               └ <Flask 'web_app'>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/flask/app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+         │    └ <function Flask.dispatch_request at 0x1044b8900>
+         └ <Flask 'web_app'>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/flask/app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           │    │           │    │              │    │            └ {}
+           │    │           │    │              │    └ 'get_account'
+           │    │           │    │              └ <Rule '/api/account' (OPTIONS, GET, HEAD) -> get_account>
+           │    │           │    └ {'static': <function Flask.__init__.<locals>.<lambda> at 0x107e79760>, 'index': <function index at 0x107e6f7e0>, 'get_account...
+           │    │           └ <Flask 'web_app'>
+           │    └ <function Flask.ensure_sync at 0x1044b8b80>
+           └ <Flask 'web_app'>
+
+> File "/Users/dujian/aster/aster_bot_python/web_app.py", line 77, in get_account
+    account = ex.get_account()
+              │  └ <function Aster.get_account at 0x104907c40>
+              └ <exchanges.aster.Aster object at 0x10496fd10>
+
+  File "/Users/dujian/aster/aster_bot_python/exchanges/aster.py", line 602, in get_account
+    response = self._signed_request('GET', '/fapi/v2/account')
+               │    └ <function Aster._signed_request at 0x104907420>
+               └ <exchanges.aster.Aster object at 0x10496fd10>
+
+  File "/Users/dujian/aster/aster_bot_python/exchanges/aster.py", line 410, in _signed_request
+    response = requests.get(url, params=params, headers=headers)
+               │        │   │           │               └ {'X-MBX-APIKEY': '2edb2ff9f6e793b8367b48c7fbfbf57fef0114e872f725e6e643bbc0f21869e3'}
+               │        │   │           └ {'timestamp': 1751871650537, 'recvWindow': 5000, 'signature': '65f21bf18ad09faca1153f9757d491992653c74af640667b67d66e117bcc11...
+               │        │   └ 'https://fapi.asterdex.com/fapi/v2/account'
+               │        └ <function get at 0x1048c6660>
+               └ <module 'requests' from '/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/requests/__init__.py'>
+
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/requests/api.py", line 73, in get
+    return request("get", url, params=params, **kwargs)
+           │              │           │         └ {'headers': {'X-MBX-APIKEY': '2edb2ff9f6e793b8367b48c7fbfbf57fef0114e872f725e6e643bbc0f21869e3'}}
+           │              │           └ {'timestamp': 1751871650537, 'recvWindow': 5000, 'signature': '65f21bf18ad09faca1153f9757d491992653c74af640667b67d66e117bcc11...
+           │              └ 'https://fapi.asterdex.com/fapi/v2/account'
+           └ <function request at 0x1048c6520>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/requests/api.py", line 59, in request
+    return session.request(method=method, url=url, **kwargs)
+           │       │              │           │      └ {'params': {'timestamp': 1751871650537, 'recvWindow': 5000, 'signature': '65f21bf18ad09faca1153f9757d491992653c74af640667b67d...
+           │       │              │           └ 'https://fapi.asterdex.com/fapi/v2/account'
+           │       │              └ 'get'
+           │       └ <function Session.request at 0x1049044a0>
+           └ <requests.sessions.Session object at 0x108653c90>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/requests/sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+           │    │    │       └ {'timeout': None, 'allow_redirects': True, 'proxies': OrderedDict([('http', 'http://127.0.0.1:1087'), ('https', 'http://127.0...
+           │    │    └ <PreparedRequest [GET]>
+           │    └ <function Session.send at 0x1049049a0>
+           └ <requests.sessions.Session object at 0x108653c90>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/requests/sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+        │       │    │          └ {'timeout': None, 'proxies': OrderedDict([('http', 'http://127.0.0.1:1087'), ('https', 'http://127.0.0.1:1087')]), 'stream': ...
+        │       │    └ <PreparedRequest [GET]>
+        │       └ <function HTTPAdapter.send at 0x1048fbce0>
+        └ <requests.adapters.HTTPAdapter object at 0x1081c0e10>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/requests/adapters.py", line 667, in send
+    resp = conn.urlopen(
+           │    └ <function HTTPConnectionPool.urlopen at 0x10472f9c0>
+           └ <urllib3.connectionpool.HTTPSConnectionPool object at 0x10868d750>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/urllib3/connectionpool.py", line 773, in urlopen
+    self._prepare_proxy(conn)
+    │    │              └ None
+    │    └ <function HTTPSConnectionPool._prepare_proxy at 0x10472fc40>
+    └ <urllib3.connectionpool.HTTPSConnectionPool object at 0x10868d750>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/urllib3/connectionpool.py", line 1042, in _prepare_proxy
+    conn.connect()
+    │    └ <function HTTPSConnection.connect at 0x1046fb920>
+    └ <urllib3.connection.HTTPSConnection object at 0x104cf0810>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/urllib3/connection.py", line 790, in connect
+    sock_and_verified = _ssl_wrap_socket_and_match_hostname(
+                        └ <function _ssl_wrap_socket_and_match_hostname at 0x1046f9da0>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/urllib3/connection.py", line 931, in _ssl_wrap_socket_and_match_hostname
+    context.verify_mode = resolve_cert_reqs(cert_reqs)
+    │       │             │                 └ 'CERT_REQUIRED'
+    │       │             └ <function resolve_cert_reqs at 0x1046bae80>
+    │       └ <property object at 0x1037721b0>
+    └ <ssl.SSLContext object at 0x1048e8290>
+
+  File "/opt/homebrew/Cellar/python@3.11/3.11.12_1/Frameworks/Python.framework/Versions/3.11/lib/python3.11/ssl.py", line 742, in verify_mode
+    super(SSLContext, SSLContext).verify_mode.__set__(self, value)
+          │           │                               │     └ <VerifyMode.CERT_REQUIRED: 2>
+          │           │                               └ <ssl.SSLContext object at 0x1048e8290>
+          │           └ <class 'gevent.ssl.SSLContext'>
+          └ <class 'gevent.ssl.SSLContext'>
+
+  File "/opt/homebrew/Cellar/python@3.11/3.11.12_1/Frameworks/Python.framework/Versions/3.11/lib/python3.11/ssl.py", line 742, in verify_mode
+    super(SSLContext, SSLContext).verify_mode.__set__(self, value)
+          │           │                               │     └ <VerifyMode.CERT_REQUIRED: 2>
+          │           │                               └ <ssl.SSLContext object at 0x1048e8290>
+          │           └ <class 'gevent.ssl.SSLContext'>
+          └ <class 'gevent.ssl.SSLContext'>
+
+  File "/opt/homebrew/Cellar/python@3.11/3.11.12_1/Frameworks/Python.framework/Versions/3.11/lib/python3.11/ssl.py", line 742, in verify_mode
+    super(SSLContext, SSLContext).verify_mode.__set__(self, value)
+          │           │                               │     └ <VerifyMode.CERT_REQUIRED: 2>
+          │           │                               └ <ssl.SSLContext object at 0x1048e8290>
+          │           └ <class 'gevent.ssl.SSLContext'>
+          └ <class 'gevent.ssl.SSLContext'>
+  [Previous line repeated 482 more times]
+
+RecursionError: maximum recursion depth exceeded while calling a Python object
+2025-07-07 15:00:50 | INFO     | __main__:get_account:56 - 收到的exchange参数: %s
+2025-07-07 15:00:50 | INFO     | __main__:get_account:58 - ex实例类型: %s
+2025-07-07 15:00:50 | INFO     | __main__:get_account:60 - web_app.py用的BACKPACK_API_KEY: %s
+2025-07-07 15:00:50 | INFO     | __main__:get_account:61 - web_app.py用的BACKPACK_API_SECRET: %s
+2025-07-07 15:00:50 | INFO     | __main__:get_account:56 - 收到的exchange参数: %s
+2025-07-07 15:00:50 | INFO     | __main__:get_account:58 - ex实例类型: %s
+2025-07-07 15:00:50 | INFO     | __main__:get_account:60 - web_app.py用的BACKPACK_API_KEY: %s
+2025-07-07 15:00:50 | INFO     | __main__:get_account:61 - web_app.py用的BACKPACK_API_SECRET: %s
+2025-07-07 15:00:50 | ERROR    | __main__:get_account:95 - 接口异常: %s
+Traceback (most recent call last):
+
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/gevent/baseserver.py", line 34, in _handle_and_close_when_done
+    return handle(*args_tuple)
+           │       └ (<gevent._socket3.socket at 0x1082742e0 object, fd=24, family=2, type=1, proto=0>, ('127.0.0.1', 60972))
+           └ <bound method WSGIServer.handle of <WSGIServer at 0x107b53550 fileno=21 address=0.0.0.0:5001>>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/gevent/pywsgi.py", line 1704, in handle
+    handler.handle()
+    │       └ <function WSGIHandler.handle at 0x10810c7c0>
+    └ <gevent.pywsgi.WSGIHandler object at 0x108202dd0>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/gevent/pywsgi.py", line 578, in handle
+    result = self.handle_one_request()
+             │    └ <function WSGIHandler.handle_one_request at 0x10810cae0>
+             └ <gevent.pywsgi.WSGIHandler object at 0x108202dd0>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/gevent/pywsgi.py", line 808, in handle_one_request
+    self.handle_one_response()
+    │    └ <function WSGIHandler.handle_one_response at 0x10810d260>
+    └ <gevent.pywsgi.WSGIHandler object at 0x108202dd0>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/gevent/pywsgi.py", line 1111, in handle_one_response
+    self.run_application()
+    │    └ <function WSGIHandler.run_application at 0x10810d1c0>
+    └ <gevent.pywsgi.WSGIHandler object at 0x108202dd0>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/gevent/pywsgi.py", line 1058, in run_application
+    self.process_result()
+    │    └ <function WSGIHandler.process_result at 0x10810d120>
+    └ <gevent.pywsgi.WSGIHandler object at 0x108202dd0>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/gevent/pywsgi.py", line 1042, in process_result
+    for data in self.result:
+                │    └ <generator object DebuggedApplication.debug_application at 0x107fe7380>
+                └ <gevent.pywsgi.WSGIHandler object at 0x108202dd0>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/werkzeug/debug/__init__.py", line 343, in debug_application
+    app_iter = self.app(environ, start_response)
+               │    │   │        └ <bound method WSGIHandler.start_response of <gevent.pywsgi.WSGIHandler object at 0x108202dd0>>
+               │    │   └ {'GATEWAY_INTERFACE': 'CGI/1.1', 'SERVER_SOFTWARE': 'gevent/20.0 Python/3.11', 'SCRIPT_NAME': '', 'wsgi.version': (1, 0), 'ws...
+               │    └ <bound method Flask.wsgi_app of <Flask 'web_app'>>
+               └ <werkzeug.debug.DebuggedApplication object at 0x107e65350>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/flask/app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+               │    └ <function Flask.full_dispatch_request at 0x1044b89a0>
+               └ <Flask 'web_app'>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/flask/app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+         │    └ <function Flask.dispatch_request at 0x1044b8900>
+         └ <Flask 'web_app'>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/flask/app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           │    │           │    │              │    │            └ {}
+           │    │           │    │              │    └ 'get_account'
+           │    │           │    │              └ <Rule '/api/account' (OPTIONS, GET, HEAD) -> get_account>
+           │    │           │    └ {'static': <function Flask.__init__.<locals>.<lambda> at 0x107e79760>, 'index': <function index at 0x107e6f7e0>, 'get_account...
+           │    │           └ <Flask 'web_app'>
+           │    └ <function Flask.ensure_sync at 0x1044b8b80>
+           └ <Flask 'web_app'>
+
+> File "/Users/dujian/aster/aster_bot_python/web_app.py", line 77, in get_account
+    account = ex.get_account()
+              │  └ <function Aster.get_account at 0x104907c40>
+              └ <exchanges.aster.Aster object at 0x10496fd10>
+
+  File "/Users/dujian/aster/aster_bot_python/exchanges/aster.py", line 602, in get_account
+    response = self._signed_request('GET', '/fapi/v2/account')
+               │    └ <function Aster._signed_request at 0x104907420>
+               └ <exchanges.aster.Aster object at 0x10496fd10>
+
+  File "/Users/dujian/aster/aster_bot_python/exchanges/aster.py", line 410, in _signed_request
+    response = requests.get(url, params=params, headers=headers)
+               │        │   │           │               └ {'X-MBX-APIKEY': '2edb2ff9f6e793b8367b48c7fbfbf57fef0114e872f725e6e643bbc0f21869e3'}
+               │        │   │           └ {'timestamp': 1751871650578, 'recvWindow': 5000, 'signature': '1cccd3aafc06894136a3514ca04ee964ae09793d8939081f21f589248d19eb...
+               │        │   └ 'https://fapi.asterdex.com/fapi/v2/account'
+               │        └ <function get at 0x1048c6660>
+               └ <module 'requests' from '/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/requests/__init__.py'>
+
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/requests/api.py", line 73, in get
+    return request("get", url, params=params, **kwargs)
+           │              │           │         └ {'headers': {'X-MBX-APIKEY': '2edb2ff9f6e793b8367b48c7fbfbf57fef0114e872f725e6e643bbc0f21869e3'}}
+           │              │           └ {'timestamp': 1751871650578, 'recvWindow': 5000, 'signature': '1cccd3aafc06894136a3514ca04ee964ae09793d8939081f21f589248d19eb...
+           │              └ 'https://fapi.asterdex.com/fapi/v2/account'
+           └ <function request at 0x1048c6520>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/requests/api.py", line 59, in request
+    return session.request(method=method, url=url, **kwargs)
+           │       │              │           │      └ {'params': {'timestamp': 1751871650578, 'recvWindow': 5000, 'signature': '1cccd3aafc06894136a3514ca04ee964ae09793d8939081f21f...
+           │       │              │           └ 'https://fapi.asterdex.com/fapi/v2/account'
+           │       │              └ 'get'
+           │       └ <function Session.request at 0x1049044a0>
+           └ <requests.sessions.Session object at 0x108659d50>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/requests/sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+           │    │    │       └ {'timeout': None, 'allow_redirects': True, 'proxies': OrderedDict([('http', 'http://127.0.0.1:1087'), ('https', 'http://127.0...
+           │    │    └ <PreparedRequest [GET]>
+           │    └ <function Session.send at 0x1049049a0>
+           └ <requests.sessions.Session object at 0x108659d50>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/requests/sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+        │       │    │          └ {'timeout': None, 'proxies': OrderedDict([('http', 'http://127.0.0.1:1087'), ('https', 'http://127.0.0.1:1087')]), 'stream': ...
+        │       │    └ <PreparedRequest [GET]>
+        │       └ <function HTTPAdapter.send at 0x1048fbce0>
+        └ <requests.adapters.HTTPAdapter object at 0x108629890>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/requests/adapters.py", line 667, in send
+    resp = conn.urlopen(
+           │    └ <function HTTPConnectionPool.urlopen at 0x10472f9c0>
+           └ <urllib3.connectionpool.HTTPSConnectionPool object at 0x1081ad5d0>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/urllib3/connectionpool.py", line 773, in urlopen
+    self._prepare_proxy(conn)
+    │    │              └ None
+    │    └ <function HTTPSConnectionPool._prepare_proxy at 0x10472fc40>
+    └ <urllib3.connectionpool.HTTPSConnectionPool object at 0x1081ad5d0>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/urllib3/connectionpool.py", line 1042, in _prepare_proxy
+    conn.connect()
+    │    └ <function HTTPSConnection.connect at 0x1046fb920>
+    └ <urllib3.connection.HTTPSConnection object at 0x108202390>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/urllib3/connection.py", line 790, in connect
+    sock_and_verified = _ssl_wrap_socket_and_match_hostname(
+                        └ <function _ssl_wrap_socket_and_match_hostname at 0x1046f9da0>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.11/site-packages/urllib3/connection.py", line 931, in _ssl_wrap_socket_and_match_hostname
+    context.verify_mode = resolve_cert_reqs(cert_reqs)
+    │       │             │                 └ 'CERT_REQUIRED'
+    │       │             └ <function resolve_cert_reqs at 0x1046bae80>
+    │       └ <property object at 0x1037721b0>
+    └ <ssl.SSLContext object at 0x1048e8290>
+
+  File "/opt/homebrew/Cellar/python@3.11/3.11.12_1/Frameworks/Python.framework/Versions/3.11/lib/python3.11/ssl.py", line 742, in verify_mode
+    super(SSLContext, SSLContext).verify_mode.__set__(self, value)
+          │           │                               │     └ <VerifyMode.CERT_REQUIRED: 2>
+          │           │                               └ <ssl.SSLContext object at 0x1048e8290>
+          │           └ <class 'gevent.ssl.SSLContext'>
+          └ <class 'gevent.ssl.SSLContext'>
+
+  File "/opt/homebrew/Cellar/python@3.11/3.11.12_1/Frameworks/Python.framework/Versions/3.11/lib/python3.11/ssl.py", line 742, in verify_mode
+    super(SSLContext, SSLContext).verify_mode.__set__(self, value)
+          │           │                               │     └ <VerifyMode.CERT_REQUIRED: 2>
+          │           │                               └ <ssl.SSLContext object at 0x1048e8290>
+          │           └ <class 'gevent.ssl.SSLContext'>
+          └ <class 'gevent.ssl.SSLContext'>
+
+  File "/opt/homebrew/Cellar/python@3.11/3.11.12_1/Frameworks/Python.framework/Versions/3.11/lib/python3.11/ssl.py", line 742, in verify_mode
+    super(SSLContext, SSLContext).verify_mode.__set__(self, value)
+          │           │                               │     └ <VerifyMode.CERT_REQUIRED: 2>
+          │           │                               └ <ssl.SSLContext object at 0x1048e8290>
+          │           └ <class 'gevent.ssl.SSLContext'>
+          └ <class 'gevent.ssl.SSLContext'>
+  [Previous line repeated 482 more times]
+
+RecursionError: maximum recursion depth exceeded while calling a Python object
+2025-07-07 15:00:50 | INFO     | __main__:get_account:56 - 收到的exchange参数: %s
+2025-07-07 15:00:50 | INFO     | __main__:get_account:58 - ex实例类型: %s
+2025-07-07 15:00:50 | INFO     | __main__:get_account:60 - web_app.py用的BACKPACK_API_KEY: %s
+2025-07-07 15:00:50 | INFO     | __main__:get_account:61 - web_app.py用的BACKPACK_API_SECRET: %s
+2025-07-07 15:00:50 | INFO     | __main__:get_account:56 - 收到的exchange参数: %s
+2025-07-07 15:00:50 | INFO     | __main__:get_account:58 - ex实例类型: %s
+2025-07-07 15:00:50 | INFO     | __main__:get_account:60 - web_app.py用的BACKPACK_API_KEY: %s
+2025-07-07 15:00:50 | INFO     | __main__:get_account:61 - web_app.py用的BACKPACK_API_SECRET: %s
+2025-07-07 15:00:50 | INFO     | __main__:get_account:56 - 收到的exchange参数: %s
+2025-07-07 15:00:50 | INFO     | __main__:get_account:58 - ex实例类型: %s
+2025-07-07 15:00:50 | INFO     | __main__:get_account:60 - web_app.py用的BACKPACK_API_KEY: %s
+2025-07-07 15:00:50 | INFO     | __main__:get_account:61 - web_app.py用的BACKPACK_API_SECRET: %s

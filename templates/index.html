@@ -1,0 +1,2289 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>交易管理系统</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        .content {
+            padding: 30px;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+        
+        .card h3 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 1.3em;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 10px;
+        }
+        
+        .balance-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .balance-item:last-child {
+            border-bottom: none;
+        }
+        
+        .balance-amount {
+            font-weight: bold;
+            color: #667eea;
+        }
+        
+        .position-item {
+            background: white;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .position-long {
+            border-left-color: #28a745;
+        }
+        
+        .position-short {
+            border-left-color: #dc3545;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+        
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: transform 0.2s;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        .btn-danger {
+            background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+        }
+        
+        .btn-success {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+        }
+        
+        .orderbook {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .orderbook-header {
+            background: #f8f9fa;
+            padding: 15px;
+            border-bottom: 1px solid #dee2e6;
+            font-weight: 600;
+        }
+        
+        .orderbook-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .orderbook-table th,
+        .orderbook-table td {
+            padding: 12px;
+            text-align: right;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .orderbook-table th {
+            background: #f8f9fa;
+            font-weight: 600;
+            color: #666;
+        }
+        
+        .asks {
+            color: #dc3545;
+        }
+        
+        .bids {
+            color: #28a745;
+        }
+        
+        .alert {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .alert-info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        
+        .alert-danger {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+        }
+        
+        .refresh-btn {
+            background: #6c757d;
+            margin-left: 10px;
+        }
+        
+        .tabs {
+            display: flex;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #eee;
+        }
+        
+        .tab {
+            padding: 12px 25px;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s;
+        }
+        
+        .tab.active {
+            border-bottom-color: #667eea;
+            color: #667eea;
+            font-weight: 600;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 交易管理系统</h1>
+            <p>实时监控账户余额、持仓信息，策略交易操作，对刷对冲，套利模块</p>
+        </div>
+        <div style="text-align:right;margin-bottom:15px;">
+            <label for="exchange-select" style="font-weight:bold;">选择交易所：</label>
+            <select id="exchange-select" onchange="onExchangeChange()" style="padding:6px 12px;border-radius:6px;">
+                <option value="aster">Aster</option>
+                <option value="backpack">Backpack</option>
+            </select>
+            <button class="btn" style="margin-left:10px;padding:6px 12px;font-size:12px;" onclick="showCacheStatus()">缓存状态</button>
+            <button class="btn" style="margin-left:5px;padding:6px 12px;font-size:12px;" onclick="loadSymbolsWithLeverage(true)">刷新数据</button>
+            <button class="btn" style="margin-left:5px;padding:6px 12px;font-size:12px;" onclick="clearSymbolsCache()">清除当前缓存</button>
+            <button class="btn" style="margin-left:5px;padding:6px 12px;font-size:12px;" onclick="clearAllSymbolsCache()">清除所有缓存</button>
+        </div>
+        
+        <div class="content">
+            <div class="tabs">
+                <div class="tab" onclick="switchTab('overview')">账户概览</div>
+                <div class="tab" onclick="switchTab('trading')">交易操作</div>
+                <div class="tab" onclick="switchTab('hedge')">对刷对冲</div>
+                <div class="tab" onclick="switchTab('arbitrage')">套利模块</div>
+                <div class="tab" onclick="window.open('/binance_charts', '_blank')">策略交易</div>
+                <div class="tab" onclick="switchTab('orders')">订单历史</div>
+                <div class="tab" onclick="switchTab('pnl')">盈亏历史</div>
+            </div>
+            
+            <!-- 账户概览 -->
+            <div id="overview" class="tab-content active">
+                <div class="grid">
+                    <div class="card">
+                        <h3>💰 账户余额</h3>
+                        <div id="balance-content">
+                            <div class="loading">加载中...</div>
+                        </div>
+                        <button class="btn refresh-btn" onclick="loadAccountInfo()">刷新</button>
+                    </div>
+                    
+                    <div class="card">
+                        <h3>📊 持仓信息</h3>
+                        <div id="position-content">
+                            <div class="loading">加载中...</div>
+                        </div>
+                        <button class="btn refresh-btn" onclick="loadAccountInfo()">刷新</button>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3>📈 实时订单簿</h3>
+                    <div class="form-group">
+                        <label for="orderbook-symbol">交易对:</label>
+                        <select id="orderbook-symbol" onchange="loadOrderbook()">
+                            <option value="BTCUSDT">BTCUSDT</option>
+                            <option value="ETHUSDT">ETHUSDT</option>
+                            <option value="BNBUSDT">BNBUSDT</option>
+                        </select>
+                    </div>
+                    <div id="orderbook-content">
+                        <div class="loading">加载中...</div>
+                    </div>
+                    <button class="btn refresh-btn" onclick="loadOrderbook()">刷新</button>
+                </div>
+            </div>
+            
+            <!-- 交易操作 -->
+            <div id="trading" class="tab-content">
+                <div class="grid">
+                    <div class="card">
+                        <h3>⚙️ 杠杆设置</h3>
+                        <div class="form-group">
+                            <label for="leverage-symbol">交易对:</label>
+                            <select id="leverage-symbol" onchange="updateLeverageMax()">
+                                <option value="BTCUSDT">BTCUSDT</option>
+                                <option value="ETHUSDT">ETHUSDT</option>
+                                <option value="BNBUSDT">BNBUSDT</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="leverage-value">杠杆倍数:</label>
+                            <input type="number" id="leverage-value" min="1" max="125" value="20">
+                        </div>
+                        <button class="btn" id="leverage-btn" onclick="setLeverage()">设置杠杆</button>
+                    </div>
+                    
+                    <div class="card">
+                        <h3>📝 下单操作</h3>
+                        <div class="form-group">
+                            <label for="order-symbol">交易对:</label>
+                            <select id="order-symbol">
+                                <option value="BTCUSDT">BTCUSDT</option>
+                                <option value="ETHUSDT">ETHUSDT</option>
+                                <option value="BNBUSDT">BNBUSDT</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="order-side">方向:</label>
+                            <select id="order-side">
+                                <option value="BUY">买入/做多</option>
+                                <option value="SELL">卖出/做空</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="order-type">订单类型:</label>
+                            <select id="order-type" onchange="togglePriceField()">
+                                <option value="MARKET">市价单</option>
+                                <option value="LIMIT">限价单</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="order-price">价格 (限价单):</label>
+                            <input type="number" id="order-price" step="0.01" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label for="order-usdt-amount">USDT金额:</label>
+                            <input type="number" id="order-usdt-amount" step="0.01" placeholder="输入USDT金额">
+                        </div>
+                        <div class="form-group">
+                            <label for="order-quantity">数量 (可选):</label>
+                            <input type="number" id="order-quantity" step="0.0001" placeholder="或直接输入数量">
+                        </div>
+                        <button class="btn btn-success" onclick="placeOrder()">下单</button>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3>🔄 平仓操作</h3>
+                    <div class="form-group">
+                        <label for="close-symbol">交易对:</label>
+                        <select id="close-symbol">
+                            <option value="BTCUSDT">BTCUSDT</option>
+                            <option value="ETHUSDT">ETHUSDT</option>
+                            <option value="BNBUSDT">BNBUSDT</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-danger" onclick="closePosition()">市价平仓</button>
+                </div>
+            </div>
+            
+            <!-- 订单历史 -->
+            <div id="orders" class="tab-content">
+                <div class="card">
+                    <h3>📋 订单历史
+                        <button class="btn btn-success" style="font-size:12px;padding:4px 10px;margin-left:20px;" onclick="switchOrderHistoryType('trade')">成交历史</button>
+                        <button class="btn btn-info" style="font-size:12px;padding:4px 10px;" onclick="switchOrderHistoryType('order')">委托历史</button>
+                    </h3>
+                    <div class="form-group">
+                        <label for="history-symbol">交易对:</label>
+                        <select id="history-symbol" onchange="reloadOrderHistoryV2()">
+                            <option value="">全部</option>
+                        </select>
+                    </div>
+                    <div id="order-history-content-v2">
+                        <div class="loading">加载中...</div>
+                    </div>
+                    <button class="btn refresh-btn" onclick="reloadOrderHistoryV2()">刷新</button>
+                </div>
+            </div>
+            <!-- 盈亏历史 -->
+            <div id="pnl" class="tab-content">
+                <div class="card">
+                    <h3>💹 盈亏历史</h3>
+                    <div class="form-group">
+                        <label for="pnl-symbol">交易对:</label>
+                        <select id="pnl-symbol" onchange="loadPnlHistory()">
+                            <option value="">全部</option>
+                        </select>
+                    </div>
+                    <div id="pnl-history-content">
+                        <div class="loading">加载中...</div>
+                    </div>
+                    <button class="btn refresh-btn" onclick="loadPnlHistory()">刷新</button>
+                </div>
+            </div>
+            
+            <!-- 对刷对冲 -->
+            <div id="hedge" class="tab-content">
+                <div class="card">
+                    <h3>🔄 对刷对冲</h3>
+                    <p style="color: #666; margin-bottom: 20px;">在两个交易所同时下单对冲，降低风险</p>
+                    <div class="grid">
+                        <div class="card">
+                            <h4>📈 交易所1</h4>
+                            <div class="form-group">
+                                <label for="hedge-ex1">交易所:</label>
+                                <select id="hedge-ex1" onchange="loadHedgeSymbols(1); updateHedgeLeverageInput(1); loadHedgePosition(1);">
+                                    <option value="aster">Aster</option>
+                                    <option value="backpack">Backpack</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="hedge-symbol1">交易对:</label>
+                                <select id="hedge-symbol1" onchange="loadHedgePosition(1)"></select>
+                            </div>
+                            <div class="form-group">
+                                <label for="hedge-side1">方向:</label>
+                                <select id="hedge-side1">
+                                    <option value="BUY">做多</option>
+                                    <option value="SELL">做空</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="hedge-usdt1">USDT金额:</label>
+                                <input type="number" id="hedge-usdt1" min="1" step="any" value="150">
+                            </div>
+                            <div class="form-group">
+                                <label for="hedge-leverage1">杠杆倍数:</label>
+                                <input type="number" id="hedge-leverage1" min="1" max="125" value="50">
+                            </div>
+                            <div id="hedge-position1" class="hedge-position-info"></div>
+                        </div>
+                        <div class="card">
+                            <h4>📉 交易所2</h4>
+                            <div class="form-group">
+                                <label for="hedge-ex2">交易所:</label>
+                                <select id="hedge-ex2" onchange="loadHedgeSymbols(2); updateHedgeLeverageInput(2); loadHedgePosition(2);">
+                                    <option value="aster">Aster</option>
+                                    <option value="backpack">Backpack</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="hedge-symbol2">交易对:</label>
+                                <select id="hedge-symbol2" onchange="loadHedgePosition(2)"></select>
+                            </div>
+                            <div class="form-group">
+                                <label for="hedge-side2">方向:</label>
+                                <select id="hedge-side2">
+                                    <option value="BUY">做多</option>
+                                    <option value="SELL">做空</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="hedge-usdt2">USDT金额:</label>
+                                <input type="number" id="hedge-usdt2" min="1" step="any" value="150">
+                            </div>
+                            <div class="form-group">
+                                <label for="hedge-leverage2">杠杆倍数:</label>
+                                <input type="number" id="hedge-leverage2" min="1" max="125" value="50">
+                            </div>
+                            <div id="hedge-position2" class="hedge-position-info"></div>
+                        </div>
+                    </div>
+                    <div class="card" style="margin-top: 20px;">
+                        <h4>⚡ 一键对冲</h4>
+                        <div class="form-group">
+                            <label>
+                                <input type="checkbox" id="hedge-sync-amount" checked> 同步金额（交易所2自动使用相同金额）
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label>
+                                <input type="checkbox" id="hedge-auto-symbol" checked> 自动转换交易对格式
+                            </label>
+                        </div>
+                        <button class="btn btn-success" style="font-size: 16px; padding: 15px 30px;" onclick="placeHedgeOrders()">🚀 一键对冲下单</button>
+                        <button class="btn btn-danger" style="font-size: 16px; padding: 15px 30px; margin-left: 10px;" onclick="closeHedgePositions()">🛑 一键平仓</button>
+                    </div>
+                    <div id="hedge-result" style="margin-top: 20px;"></div>
+                </div>
+                <!-- 持仓展示区域，仅对刷tab下显示 -->
+                <div class="card" style="margin-top: 30px; background: linear-gradient(135deg, #667eea22 0%, #764ba222 100%); border: 2px solid #a48be0; color: #333;">
+                    <h3 style="color:#4b2991; margin-bottom: 18px;">持仓展示</h3>
+                    <div style="margin-bottom: 15px;">
+                        <b style="color:#4b2991;">交易所1持仓</b>
+                        <div id="hedge-position1-show" class="hedge-position-info" style="margin-left: 20px;"></div>
+                    </div>
+                    <div>
+                        <b style="color:#4b2991;">交易所2持仓</b>
+                        <div id="hedge-position2-show" class="hedge-position-info" style="margin-left: 20px;"></div>
+                    </div>
+                </div>
+            </div>
+            <!-- 套利模块 -->
+            <div id="arbitrage" class="tab-content">
+                <div class="card">
+                    <h3>💹 套利模块</h3>
+                    <p style="color: #666; margin-bottom: 20px;">在两个交易所同时下单套利，捕捉价差机会</p>
+                    <div class="grid">
+                        <div class="card">
+                            <h4>📈 交易所1</h4>
+                            <div class="form-group">
+                                <label for="arbi-ex1">交易所:</label>
+                                <select id="arbi-ex1" onchange="loadArbiSymbols(1); updateArbiLeverageInput(1); loadArbiPosition(1, true);">
+                                    <option value="aster">Aster</option>
+                                    <option value="backpack">Backpack</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="arbi-symbol1">交易对:</label>
+                                <select id="arbi-symbol1" onchange="loadArbiPosition(1, true)"></select>
+                            </div>
+                            <!-- 交易所1卡片内：只保留买1卖1价格展示区，移除diff1/diff2展示区 -->
+                            <div class="form-group" style="color:#d32f2f;font-weight:bold;font-size:1.1em;">
+                                <span id="arbi-orderbook1">卖1价格：--　买1价格：--</span>
+                            </div>
+                            <div class="form-group">
+                                <label for="arbi-side1">方向:</label>
+                                <select id="arbi-side1">
+                                    <option value="BUY">做多</option>
+                                    <option value="SELL">做空</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="arbi-usdt1">USDT金额:</label>
+                                <input type="number" id="arbi-usdt1" min="1" step="any" value="150">
+                            </div>
+                            <div class="form-group">
+                                <label for="arbi-leverage1">杠杆倍数:</label>
+                                <input type="number" id="arbi-leverage1" min="1" max="125" value="50">
+                            </div>
+                            <div id="arbi-position1" class="arbi-position-info"></div>
+                        </div>
+                        <div class="card">
+                            <h4>📉 交易所2</h4>
+                            <div class="form-group">
+                                <label for="arbi-ex2">交易所:</label>
+                                <select id="arbi-ex2" onchange="loadArbiSymbols(2); updateArbiLeverageInput(2); loadArbiPosition(2, true);">
+                                    <option value="aster">Aster</option>
+                                    <option value="backpack">Backpack</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="arbi-symbol2">交易对:</label>
+                                <select id="arbi-symbol2" onchange="loadArbiPosition(2, true)"></select>
+                            </div>
+                            <!-- 买1卖1价格展示区（不再显示diff） -->
+                            <div class="form-group" style="color:#d32f2f;font-weight:bold;font-size:1.1em;">
+                                <span id="arbi-orderbook2">卖1价格：--　买1价格：--</span>
+                            </div>
+                            <div class="form-group">
+                                <label for="arbi-side2">方向:</label>
+                                <select id="arbi-side2">
+                                    <option value="BUY">做多</option>
+                                    <option value="SELL">做空</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="arbi-usdt2">USDT金额:</label>
+                                <input type="number" id="arbi-usdt2" min="1" step="any" value="150">
+                            </div>
+                            <div class="form-group">
+                                <label for="arbi-leverage2">杠杆倍数:</label>
+                                <input type="number" id="arbi-leverage2" min="1" max="125" value="50">
+                            </div>
+                            <div id="arbi-position2" class="arbi-position-info"></div>
+                        </div>
+                    </div>
+                    <!-- 一键套利组件 -->
+                    <div class="card" style="margin-top:32px;">
+                        <h4>⚡一键套利</h4>
+                        <div class="form-group">
+                            同步金额（交易所2自动使用相同金额）
+                            <input type="checkbox" id="arbi-sync-amount" checked>
+                        </div>
+                        <div class="form-group">
+                            自动转换交易对格式
+                            <input type="checkbox" id="arbi-auto-symbol" checked>
+                        </div>
+                        <!-- 一键套利组件内diff1/diff2展示区，保持不变 -->
+                        <div class="form-group" style="display:flex;align-items:center;justify-content:center;gap:32px;">
+                            <div style="color:#e65100;font-weight:bold;font-size:1.1em;text-align:center;">
+                                <span id="arbi-diff">diff1 = --，diff2 = --</span>
+                            </div>
+                            <div style="color:#d32f2f;font-weight:bold;font-size:1.1em;display:flex;align-items:center;">
+                                价差阈值 <input id="arbi-threshold" type="number" value="50" min="0" step="0.01" style="width:70px;margin-left:6px;border:2px solid #d32f2f;border-radius:4px;font-size:1em;padding:2px 6px;">
+                            </div>
+                            <div style="color:#d32f2f;font-weight:bold;font-size:1.1em;display:flex;align-items:center;">
+                                平仓价差阀值 <input id="arbi-close-threshold" type="number" value="10" min="0" step="0.01" style="width:70px;margin-left:6px;border:2px solid #d32f2f;border-radius:4px;font-size:1em;padding:2px 6px;">
+                            </div>
+                            <div style="color:#d32f2f;font-weight:bold;font-size:1.1em;display:flex;align-items:center;">
+                                <input id="arbi-auto-enable" type="checkbox" style="width:20px;height:20px;margin-right:6px;"> 是否启用自动套利
+                            </div>
+                        </div>
+                        <div class="form-group" style="text-align:center;">
+                            <button class="btn btn-success" onclick="arbiOrder()">🚀一键套利下单</button>
+                            <button class="btn btn-danger" onclick="arbiCloseAll()">🔴一键平仓</button>
+                        </div>
+                    </div>
+                    <div id="arbi-result" style="margin-top: 20px;"></div>
+                </div>
+                <!-- 持仓展示区域，仅套利tab下显示 -->
+                <div class="card" style="margin-top: 30px; background: linear-gradient(135deg, #667eea22 0%, #764ba222 100%); border: 2px solid #a48be0; color: #333;">
+                    <h3 style="color:#4b2991; margin-bottom: 18px;">持仓展示</h3>
+                    <div style="margin-bottom: 15px;">
+                        <b style="color:#4b2991;">交易所1持仓</b>
+                        <div id="arbi-position1-show" class="arbi-position-info" style="margin-left: 20px;"></div>
+                    </div>
+                    <div>
+                        <b style="color:#4b2991;">交易所2持仓</b>
+                        <div id="arbi-position2-show" class="arbi-position-info" style="margin-left: 20px;"></div>
+                    </div>
+                </div>
+            </div>
+            <!-- EMA隧道 -->
+            <div id="ema-tunnel" class="tab-content">
+                <div class="card">
+                    <h3>📈 EMA隧道</h3>
+                    <div class="form-group">
+                        <span style="color:#888;font-size:1.2em;">点击上方标签将于新窗口打开EMA隧道图表</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 缓存交易对及最大杠杆
+        let symbolLeverageMap = {};
+        let symbolsList = [];
+        let currentExchange = localStorage.getItem('exchange') || 'aster';
+
+        // 页面加载完成后自动加载数据和交易对
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('exchange-select').value = currentExchange;
+            
+            // 延迟显示缓存状态，避免与加载状态冲突
+            setTimeout(() => {
+                showCacheStatus();
+            }, 2000);
+            
+            loadSymbolsWithLeverage().then(() => {
+            loadAccountInfo();
+            loadOrderbook();
+            loadOrderHistory();
+            });
+            // 刷新对刷tab的交易对下拉框，必须先设置交易所默认值再加载symbols
+            document.getElementById('hedge-ex1').value = 'aster';
+            document.getElementById('hedge-ex2').value = 'backpack';
+            document.getElementById('hedge-side1').value = 'BUY';
+            document.getElementById('hedge-side2').value = 'SELL';
+            document.getElementById('hedge-usdt1').value = 150;
+            document.getElementById('hedge-usdt2').value = 150;
+            // 先设置交易所，再分别加载symbols，保证数据源正确
+            loadHedgeSymbols(1);
+            loadHedgeSymbols(2);
+            loadHedgePosition(1);
+            loadHedgePosition(2);
+            updateLeverageUI();
+            // 页面加载时自动激活上次tab
+            const lastTab = localStorage.getItem('activeTab') || 'overview';
+            // 触发一次tab切换
+            const tabBtn = Array.from(document.querySelectorAll('.tab')).find(tab => tab.textContent.includes(
+                lastTab === 'overview' ? '账户概览' :
+                lastTab === 'trading' ? '交易操作' :
+                lastTab === 'hedge' ? '对刷对冲' :
+                lastTab === 'orders' ? '订单历史' :
+                lastTab === 'pnl' ? '盈亏历史' : ''
+            ));
+            if (tabBtn) tabBtn.click();
+            // 页面加载时恢复arbi_open_diff_type
+            window.arbi_open_diff_type = localStorage.getItem('arbi_open_diff_type');
+        });
+
+        // 统一获取symbol字符串，兼容多种结构
+        function getSymbolStr(s) {
+            if (typeof s === 'string') return s;
+            if (s && typeof s.symbol === 'string') return s.symbol;
+            if (s && s.symbol && typeof s.symbol.symbol === 'string') return s.symbol.symbol;
+            return '';
+        }
+
+        function filterBackpackPerpSymbols(symbols) {
+            return symbols.filter(s => {
+                const symbolStr = getSymbolStr(s);
+                return typeof symbolStr === 'string' && symbolStr.endsWith('_USDC_PERP');
+            });
+        }
+
+        async function loadSymbolsWithLeverage(forceRefresh = false) {
+            const cacheKey = 'symbols_with_leverage_' + currentExchange;
+            const cacheExpireKey = 'symbols_with_leverage_expire_' + currentExchange;
+            const cacheTimeKey = 'symbols_with_leverage_time_' + currentExchange;
+            const expireMs = 24 * 60 * 60 * 1000; // 24小时缓存时间
+            
+            // 显示加载状态（只在强制刷新时显示）
+            if (forceRefresh) {
+                showAlert('正在刷新交易对列表...', 'info');
+            }
+            
+            if (!forceRefresh) {
+                const cache = localStorage.getItem(cacheKey);
+                const expire = localStorage.getItem(cacheExpireKey);
+                
+                if (cache && expire && Date.now() < parseInt(expire)) {
+                    try {
+                        const data = JSON.parse(cache);
+                        symbolsList = data.symbols;
+                        if (currentExchange === 'backpack') {
+                            symbolsList = filterBackpackPerpSymbols(symbolsList);
+                        }
+                        symbolLeverageMap = {};
+                        symbolsList.forEach(item => {
+                            symbolLeverageMap[getSymbolStr(item)] = item.maxLeverage;
+                        });
+                        updateSymbolDropdowns();
+                        
+                        // 静默加载，不显示提示
+                        return Promise.resolve();
+                    } catch (e) {
+                        console.warn('缓存解析失败，重新获取数据:', e);
+                    }
+                }
+            }
+            
+            try {
+                const response = await fetch(`/api/symbols_with_leverage?exchange=${currentExchange}`);
+                const data = await response.json();
+                if (data.success) {
+                    symbolsList = data.symbols;
+                    if (currentExchange === 'backpack') {
+                        symbolsList = filterBackpackPerpSymbols(symbolsList);
+                    }
+                    symbolLeverageMap = {};
+                    symbolsList.forEach(item => {
+                        symbolLeverageMap[getSymbolStr(item)] = item.maxLeverage;
+                    });
+                    
+                    // 保存到缓存
+                    localStorage.setItem(cacheKey, JSON.stringify(data));
+                    localStorage.setItem(cacheExpireKey, (Date.now() + expireMs).toString());
+                    localStorage.setItem(cacheTimeKey, Date.now().toString());
+                    
+                    updateSymbolDropdowns();
+                    if (forceRefresh) {
+                        showAlert(`已更新交易对列表 (${currentExchange})，共${symbolsList.length}个交易对`, 'success');
+                    }
+                } else {
+                    showAlert('获取交易对失败: ' + data.error, 'danger');
+                }
+            } catch (e) {
+                showAlert('获取交易对失败: ' + e.message, 'danger');
+            }
+        }
+
+        // 清除当前交易所的缓存
+        function clearSymbolsCache() {
+            const cacheKey = 'symbols_with_leverage_' + currentExchange;
+            const cacheExpireKey = 'symbols_with_leverage_expire_' + currentExchange;
+            const cacheTimeKey = 'symbols_with_leverage_time_' + currentExchange;
+            
+            localStorage.removeItem(cacheKey);
+            localStorage.removeItem(cacheExpireKey);
+            localStorage.removeItem(cacheTimeKey);
+            
+            showAlert(`已清除 ${currentExchange} 的交易对缓存`, 'info');
+        }
+        
+        // 清除所有交易所的缓存
+        function clearAllSymbolsCache() {
+            const keys = Object.keys(localStorage);
+            keys.forEach(key => {
+                if (key.startsWith('symbols_with_leverage_')) {
+                    localStorage.removeItem(key);
+                }
+            });
+            
+            showAlert('已清除所有交易所的交易对缓存', 'info');
+        }
+        
+        // 显示当前交易所的缓存状态
+        function showCacheStatus() {
+            const exchanges = ['aster', 'backpack'];
+            let statusText = '';
+            
+            exchanges.forEach(exchange => {
+                const cacheKey = 'symbols_with_leverage_' + exchange;
+                const cacheExpireKey = 'symbols_with_leverage_expire_' + exchange;
+                const cacheTimeKey = 'symbols_with_leverage_time_' + exchange;
+                
+                const cache = localStorage.getItem(cacheKey);
+                const expire = localStorage.getItem(cacheExpireKey);
+                const cacheTime = localStorage.getItem(cacheTimeKey);
+                
+                if (cache && expire && cacheTime) {
+                    const expireTime = parseInt(expire);
+                    const cacheTimeInt = parseInt(cacheTime);
+                    const now = Date.now();
+                    const isExpired = now > expireTime;
+                    const cacheTimeStr = new Date(cacheTimeInt).toLocaleString();
+                    const remainingTime = Math.floor((expireTime - now) / 1000 / 60); // 剩余分钟数
+                    
+                    if (isExpired) {
+                        statusText += `${exchange}: 缓存已过期\n`;
+                    } else {
+                        statusText += `${exchange}: 有效缓存，剩余${remainingTime}分钟 (${cacheTimeStr})\n`;
+                    }
+                } else {
+                    statusText += `${exchange}: 暂无缓存数据\n`;
+                }
+            });
+            
+            showAlert(`缓存状态:\n${statusText}`, 'info');
+        }
+
+        function updateSymbolDropdowns() {
+            const selects = [
+                'leverage-symbol', 'order-symbol', 'close-symbol', 'history-symbol', 'orderbook-symbol', 'pnl-symbol'
+            ];
+            selects.forEach(id => {
+                const sel = document.getElementById(id);
+                if (!sel) return;
+                const cur = sel.value;
+                // 先插入"全部"选项
+                let options = '<option value="">全部</option>';
+                options += symbolsList.map(s => {
+                    let symbolStr = getSymbolStr(s);
+                    if(currentExchange === 'backpack' && symbolStr) {
+                        symbolStr = symbolStr.replace(/-/g, '_');
+                    }
+                    return typeof symbolStr === 'string' ? `<option value="${symbolStr}">${symbolStr}</option>` : '';
+                }).join('');
+                sel.innerHTML = options;
+                // 默认选中"全部"
+                sel.value = '';
+                // 恢复原有选中
+                if (cur && symbolsList.some(s => {
+                    let symbolStr = getSymbolStr(s);
+                    if(currentExchange === 'backpack' && symbolStr) symbolStr = symbolStr.replace(/-/g, '_');
+                    return symbolStr === cur;
+                })) sel.value = cur;
+            });
+            updateLeverageMax();
+        }
+
+        // 监听交易所切换，动态禁用/启用杠杆输入框和按钮
+        function updateLeverageUI() {
+            const input = document.getElementById('leverage-value');
+            const btn = document.getElementById('leverage-btn');
+            const tip = document.getElementById('leverage-max-tip');
+            if (currentExchange === 'backpack') {
+                input.value = 1;
+                input.disabled = true;
+                btn.disabled = true;
+                if (tip) tip.textContent = '最大可用杠杆：50倍（Backpack固定）';
+            } else {
+                input.disabled = false;
+                btn.disabled = false;
+                updateLeverageMax();
+            }
+        }
+
+        function updateLeverageMax() {
+            const symbol = document.getElementById('leverage-symbol').value;
+            const max = symbolLeverageMap[symbol] || 125;
+            const input = document.getElementById('leverage-value');
+            input.max = max;
+            // 显示最大杠杆提示
+            let tip = document.getElementById('leverage-max-tip');
+            if (!tip) {
+                tip = document.createElement('div');
+                tip.id = 'leverage-max-tip';
+                tip.style = 'color:#888;font-size:13px;margin-top:5px;';
+                input.parentNode.appendChild(tip);
+            }
+            if (currentExchange === 'backpack') {
+                tip.textContent = `最大可用杠杆：50倍（Backpack固定）`;
+            } else {
+            tip.textContent = `最大可用杠杆：${max}倍`;
+            }
+        }
+
+        // 切换标签页
+        function switchTab(tabName) {
+            // 隐藏所有标签内容
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            // 移除所有标签的active类
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            // 显示选中的标签内容
+            document.getElementById(tabName).classList.add('active');
+            // 添加active类到选中的标签
+            event.target.classList.add('active');
+            // 记录当前tab到localStorage
+            localStorage.setItem('activeTab', tabName);
+        }
+
+        // 加载账户信息
+        async function loadAccountInfo() {
+            try {
+                const response = await fetch(`/api/account?exchange=${currentExchange}`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    displayBalance(data.account);
+                    displayPositions(data.positions);
+                } else {
+                    showAlert('加载账户信息失败: ' + data.error, 'danger');
+                }
+            } catch (error) {
+                showAlert('网络错误: ' + error.message, 'danger');
+            }
+        }
+
+        // 显示余额信息
+        function displayBalance(account) {
+            const balanceContent = document.getElementById('balance-content');
+            let html = '';
+            let mainAsset = null;
+            let mainAmount = null;
+            // 优先USDT，其次USDC，否则第一个币种
+            let usdt = account.assets.find(a => a.asset === 'USDT');
+            let usdc = account.assets.find(a => a.asset === 'USDC');
+            if (usdt) {
+                mainAsset = 'USDT';
+                mainAmount = usdt.walletBalance;
+            } else if (usdc) {
+                mainAsset = 'USDC';
+                mainAmount = usdc.walletBalance;
+            } else if (account.assets.length > 0) {
+                mainAsset = account.assets[0].asset;
+                mainAmount = account.assets[0].walletBalance;
+            }
+            if (mainAsset) {
+                html += `<div class="balance-item"><span>${mainAsset}</span><span class="balance-amount">${parseFloat(mainAmount).toFixed(6)}</span></div>`;
+            }
+            // 余额列表显示所有币种
+            account.assets.forEach(asset => {
+                if (!mainAsset || asset.asset !== mainAsset) {
+                    if (parseFloat(asset.walletBalance) > 0) {
+                        html += `<div class="balance-item"><span>${asset.asset}</span><span class="balance-amount">${parseFloat(asset.walletBalance).toFixed(6)}</span></div>`;
+                    }
+                }
+            });
+            balanceContent.innerHTML = html || '<div class="loading">暂无余额</div>';
+        }
+
+        // 显示持仓信息
+        function displayPositions(positions) {
+            const positionContent = document.getElementById('position-content');
+            let html = '';
+            positions.forEach(position => {
+                // 兼容多种字段
+                const positionAmt = parseFloat(position.positionAmt ?? position.position_amt ?? position.netQuantity ?? 0);
+                if (positionAmt !== 0) {
+                    // 优先兼容Backpack的pnlUnrealized
+                    let pnlRaw = position.pnlUnrealized ?? position.unrealizedProfit ?? position.unrealizedPnl ?? position.unrealized_profit ?? 0;
+                    const pnl = parseFloat(pnlRaw);
+                    const pnlClass = pnl >= 0 ? 'text-success' : 'text-danger';
+                    const positionClass = positionAmt > 0 ? 'position-long' : 'position-short';
+                    html += `
+                        <div class="position-item ${positionClass}">
+                            <div><strong>${position.symbol}</strong></div>
+                            <div>持仓量: ${positionAmt.toFixed(4)}</div>
+                            <div>开仓价: ${parseFloat(position.entryPrice ?? position.entry_price ?? 0).toFixed(2)}</div>
+                            <div>未实现盈亏: <span class="${pnlClass}">${isNaN(pnl) ? '--' : pnl.toFixed(2)} USDT</span></div>
+                            <button class="btn btn-danger" style="float:right;margin-top:10px;" onclick="closePositionBySymbol('${position.symbol}')">市价平仓</button>
+                        </div>
+                    `;
+                }
+            });
+            positionContent.innerHTML = html || '<div class="loading">暂无持仓</div>';
+        }
+
+        // 新增：支持直接平仓
+        async function closePositionBySymbol(symbol) {
+            if (!confirm(`确定要市价平仓 ${symbol} 的所有持仓吗？`)) {
+                return;
+            }
+            try {
+                const response = await fetch('/api/close_position', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ symbol, exchange: currentExchange })
+                });
+                const data = await response.json();
+                if (data.success) {
+                    showAlert('平仓成功！', 'success');
+                    loadAccountInfo();
+                } else {
+                    showAlert('平仓失败: ' + data.error, 'danger');
+                }
+            } catch (error) {
+                showAlert('网络错误: ' + error.message, 'danger');
+            }
+        }
+
+        // 加载订单簿
+        async function loadOrderbook() {
+            const symbol = document.getElementById('orderbook-symbol').value;
+            const orderbookContent = document.getElementById('orderbook-content');
+            
+            try {
+                const response = await fetch(`/api/orderbook/${symbol}?exchange=${currentExchange}`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    displayOrderbook(data.orderbook);
+                } else {
+                    orderbookContent.innerHTML = '<div class="alert alert-danger">加载订单簿失败: ' + data.error + '</div>';
+                }
+            } catch (error) {
+                orderbookContent.innerHTML = '<div class="alert alert-danger">网络错误: ' + error.message + '</div>';
+            }
+        }
+
+        // 显示订单簿
+        function displayOrderbook(orderbook) {
+            const orderbookContent = document.getElementById('orderbook-content');
+            
+            let html = `
+                <div class="orderbook">
+                    <div class="orderbook-header">实时订单簿</div>
+                    <table class="orderbook-table">
+                        <thead>
+                            <tr>
+                                <th>价格</th>
+                                <th>数量</th>
+                                <th>累计</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+            `;
+            
+            // 卖单（asks）
+            const asks = orderbook.asks.slice(0, 10).reverse();
+            asks.forEach(ask => {
+                html += `
+                    <tr class="asks">
+                        <td>${parseFloat(ask[0]).toFixed(2)}</td>
+                        <td>${parseFloat(ask[1]).toFixed(4)}</td>
+                        <td>${parseFloat(ask[1]).toFixed(4)}</td>
+                    </tr>
+                `;
+            });
+            
+            html += '<tr><td colspan="3" style="text-align: center; background: #f8f9fa; font-weight: bold;">---</td></tr>';
+            
+            // 买单（bids）
+            const bids = orderbook.bids.slice(0, 10);
+            bids.forEach(bid => {
+                html += `
+                    <tr class="bids">
+                        <td>${parseFloat(bid[0]).toFixed(2)}</td>
+                        <td>${parseFloat(bid[1]).toFixed(4)}</td>
+                        <td>${parseFloat(bid[1]).toFixed(4)}</td>
+                    </tr>
+                `;
+            });
+            
+            html += `
+                        </tbody>
+                    </table>
+                </div>
+            `;
+            
+            orderbookContent.innerHTML = html;
+        }
+
+        // 设置杠杆
+        async function setLeverage() {
+            const symbol = document.getElementById('leverage-symbol').value;
+            const leverage = document.getElementById('leverage-value').value;
+            try {
+                const response = await fetch('/api/leverage', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ symbol, leverage: parseInt(leverage), exchange: currentExchange })
+                });
+                const data = await response.json();
+                if (data.success) {
+                    showAlert('杠杆设置成功！', 'success');
+                    // 缓存本次杠杆设置
+                    const cacheKey = `leverage_${symbol}`;
+                    localStorage.setItem(cacheKey, leverage);
+                } else {
+                    showAlert('杠杆设置失败: ' + data.error, 'danger');
+                }
+            } catch (error) {
+                showAlert('网络错误: ' + error.message, 'danger');
+            }
+        }
+
+        // 下单
+        async function placeOrder() {
+            const symbol = document.getElementById('order-symbol').value;
+            const side = document.getElementById('order-side').value;
+            const orderType = document.getElementById('order-type').value;
+            const price = document.getElementById('order-price').value;
+            const usdtAmount = document.getElementById('order-usdt-amount').value;
+            const quantity = document.getElementById('order-quantity').value;
+            if (!usdtAmount && !quantity) {
+                showAlert('请输入USDT金额或数量', 'danger');
+                return;
+            }
+            let orderData = {
+                symbol,
+                side,
+                type: orderType,
+                exchange: currentExchange
+            };
+            if (currentExchange === 'backpack') {
+                // Backpack只支持quoteQuantity（USDT金额），不传leverage
+                if (usdtAmount) orderData.quoteQuantity = usdtAmount;
+                if (quantity) orderData.quantity = quantity;
+                if (orderType === 'LIMIT' && price) orderData.price = price;
+            } else {
+                // 其他交易所原有参数
+                orderData.usdt_amount = usdtAmount || null;
+                orderData.quantity = quantity || null;
+                orderData.price = price || null;
+            }
+            try {
+                const response = await fetch('/api/order', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(orderData)
+                });
+                const data = await response.json();
+                if (data.success) {
+                    showAlert('下单成功！订单ID: ' + data.result.orderId, 'success');
+                    document.getElementById('order-usdt-amount').value = '';
+                    document.getElementById('order-quantity').value = '';
+                    document.getElementById('order-price').value = '';
+                    loadAccountInfo();
+                } else {
+                    showAlert('下单失败: ' + data.error, 'danger');
+                }
+            } catch (error) {
+                showAlert('网络错误: ' + error.message, 'danger');
+            }
+        }
+
+        // 平仓
+        async function closePosition() {
+            const symbol = document.getElementById('close-symbol').value;
+            
+            if (!confirm(`确定要平仓 ${symbol} 的所有持仓吗？`)) {
+                return;
+            }
+            
+            try {
+                const response = await fetch('/api/close_position', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ symbol, exchange: currentExchange })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    showAlert('平仓成功！', 'success');
+                    loadAccountInfo();
+                } else {
+                    showAlert('平仓失败: ' + data.error, 'danger');
+                }
+            } catch (error) {
+                showAlert('网络错误: ' + error.message, 'danger');
+            }
+        }
+
+        // 新增：订单历史tab切换
+        let orderHistoryType = 'trade'; // trade:成交历史, order:委托历史
+        function switchOrderHistoryType(type) {
+            orderHistoryType = type;
+            reloadOrderHistoryV2();
+        }
+        function reloadOrderHistoryV2() {
+            if(orderHistoryType === 'trade') {
+                loadOrderHistory();
+            } else {
+                loadOrderHistoryV2();
+            }
+        }
+        // 新增：加载委托历史
+        async function loadOrderHistoryV2() {
+            const content = document.getElementById('order-history-content-v2');
+            const symbol = document.getElementById('history-symbol').value;
+            content.innerHTML = '<div class="loading">加载中...</div>';
+            try {
+                const url = `/api/order_history?exchange=${currentExchange}&symbol=${symbol}`;
+                const resp = await fetch(url);
+                const data = await resp.json();
+                if(data.success) {
+                    displayOrderHistoryV2(data.orders);
+                } else {
+                    content.innerHTML = `<div class='alert alert-danger'>加载委托历史失败: ${data.error}</div>`;
+                }
+            } catch(e) {
+                content.innerHTML = `<div class='alert alert-danger'>网络错误: ${e.message}</div>`;
+            }
+        }
+        function displayOrderHistoryV2(orders) {
+            const content = document.getElementById('order-history-content-v2');
+            if(!orders || orders.length === 0) {
+                content.innerHTML = '<div class="loading">暂无委托记录</div>';
+                return;
+            }
+            let html = `<table class="orderbook-table"><thead><tr><th>时间</th><th>交易对</th><th>方向</th><th>类型</th><th>价格</th><th>数量</th><th>状态</th></tr></thead><tbody>`;
+            orders.forEach(o => {
+                const time = o.createdAt ? new Date(o.createdAt).toLocaleString() : '--';
+                html += `<tr><td>${time}</td><td>${o.symbol||o.symbolId||'--'}</td><td>${o.side||'--'}</td><td>${o.orderType||'--'}</td><td>${o.price||'--'}</td><td>${o.quantity||o.executedQuantity||'--'}</td><td>${o.status||'--'}</td></tr>`;
+            });
+            html += '</tbody></table>';
+            content.innerHTML = html;
+        }
+        // 新增：加载盈亏历史
+        async function loadPnlHistory() {
+            const content = document.getElementById('pnl-history-content');
+            const symbol = document.getElementById('pnl-symbol').value;
+            content.innerHTML = '<div class="loading">加载中...</div>';
+            try {
+                const url = `/api/pnl_history?exchange=${currentExchange}&symbol=${symbol}`;
+                const resp = await fetch(url);
+                const data = await resp.json();
+                if(data.success) {
+                    displayPnlHistory(data.pnl);
+                } else {
+                    content.innerHTML = `<div class='alert alert-danger'>加载盈亏历史失败: ${data.error}</div>`;
+                }
+            } catch(e) {
+                content.innerHTML = `<div class='alert alert-danger'>网络错误: ${e.message}</div>`;
+            }
+        }
+        function displayPnlHistory(pnls) {
+            const content = document.getElementById('pnl-history-content');
+            if(!pnls || pnls.length === 0) {
+                content.innerHTML = '<div class="loading">暂无盈亏记录</div>';
+                return;
+            }
+            let html = `<table class="orderbook-table"><thead><tr><th>时间</th><th>交易对</th><th>已实现盈亏</th></tr></thead><tbody>`;
+            pnls.forEach(p => {
+                const time = p.timestamp ? new Date(p.timestamp).toLocaleString() : '--';
+                html += `<tr><td>${time}</td><td>${p.symbol||'--'}</td><td>${p.pnlRealized||'--'}</td></tr>`;
+            });
+            html += '</tbody></table>';
+            content.innerHTML = html;
+        }
+
+        // 切换价格字段
+        function togglePriceField() {
+            const orderType = document.getElementById('order-type').value;
+            const priceField = document.getElementById('order-price');
+            
+            if (orderType === 'LIMIT') {
+                priceField.disabled = false;
+                priceField.required = true;
+            } else {
+                priceField.disabled = true;
+                priceField.required = false;
+                priceField.value = '';
+            }
+        }
+
+        // 显示提示信息
+        function showAlert(message, type) {
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `alert alert-${type}`;
+            alertDiv.textContent = message;
+            
+            const content = document.querySelector('.content');
+            content.insertBefore(alertDiv, content.firstChild);
+            
+            setTimeout(() => {
+                alertDiv.remove();
+            }, 5000);
+        }
+
+        // 自动刷新
+        setInterval(() => {
+            if (document.getElementById('overview').classList.contains('active')) {
+                loadAccountInfo();
+                loadOrderbook();
+            }
+        }, 10000); // 每10秒刷新一次
+
+        function onExchangeChange() {
+            currentExchange = document.getElementById('exchange-select').value;
+            localStorage.setItem('exchange', currentExchange);
+            loadSymbolsWithLeverage(false); // 优先使用缓存，不强制刷新
+            loadAccountInfo();
+            loadOrderbook();
+            loadOrderHistory();
+            updateLeverageUI();
+        }
+
+        // 修改：让成交历史渲染到order-history-content-v2
+        async function loadOrderHistory() {
+            const content = document.getElementById('order-history-content-v2');
+            const symbol = document.getElementById('history-symbol').value;
+            content.innerHTML = '<div class="loading">加载中...</div>';
+            try {
+                const response = await fetch(`/api/user_trades?symbol=${symbol}&exchange=${currentExchange}`);
+                const data = await response.json();
+                if (data.success) {
+                    displayOrderHistory(data.trades);
+                } else {
+                    content.innerHTML = '<div class="alert alert-danger">加载成交历史失败: ' + data.error + '</div>';
+                }
+            } catch (error) {
+                content.innerHTML = '<div class="alert alert-danger">网络错误: ' + error.message + '</div>';
+            }
+        }
+        function displayOrderHistory(trades) {
+            const content = document.getElementById('order-history-content-v2');
+            if (!trades || trades.length === 0) {
+                content.innerHTML = '<div class="loading">暂无成交记录</div>';
+                return;
+            }
+            // 1. 时间倒序排序
+            trades.sort((a, b) => b.time - a.time);
+            let html = `
+                <table class="orderbook-table">
+                    <thead>
+                        <tr>
+                            <th>时间</th>
+                            <th>交易对</th>
+                            <th>方向</th>
+                            <th>持仓方向</th>
+                            <th>价格</th>
+                            <th>USDT成交额</th>
+                            <th>利润</th>
+                            <th>费用</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+            trades.forEach(trade => {
+                const time = new Date(trade.time).toLocaleString();
+                const sideClass = trade.side === 'BUY' ? 'bids' : 'asks';
+                let profit = '--';
+                if (trade.realizedPnl !== undefined && trade.realizedPnl !== null && trade.realizedPnl !== '' && !isNaN(parseFloat(trade.realizedPnl))) {
+                    profit = parseFloat(trade.realizedPnl).toFixed(4);
+                }
+                // 2. 费用列
+                let commission = '--';
+                if (trade.commission !== undefined && trade.commission !== null) {
+                    commission = trade.commission + (trade.commissionAsset ? (' ' + trade.commissionAsset) : '');
+                }
+                // 3. 数量列显示USDT成交额
+                let quoteQty = '--';
+                if (trade.quoteQty !== undefined && trade.quoteQty !== null && !isNaN(parseFloat(trade.quoteQty))) {
+                    quoteQty = parseFloat(trade.quoteQty).toFixed(4);
+                }
+                html += `
+                    <tr class="${sideClass}">
+                        <td>${time}</td>
+                        <td>${trade.symbol}</td>
+                        <td>${trade.side}</td>
+                        <td>${trade.positionSide || '--'}</td>
+                        <td>${parseFloat(trade.price).toFixed(2)}</td>
+                        <td title="原始数量: ${trade.qty}">${quoteQty}</td>
+                        <td>${profit}</td>
+                        <td>${commission}</td>
+                    </tr>
+                `;
+            });
+            html += '</tbody></table>';
+            content.innerHTML = html;
+        }
+        
+        // 对刷对冲相关函数
+        async function placeHedgeOrders() {
+            const resultDiv = document.getElementById('hedge-result');
+            resultDiv.innerHTML = '<div class="loading">正在执行对冲下单...</div>';
+            
+            // 获取交易所1参数
+            const ex1 = document.getElementById('hedge-ex1').value;
+            const symbol1 = document.getElementById('hedge-symbol1').value;
+            const side1 = document.getElementById('hedge-side1').value;
+            const usdt1 = document.getElementById('hedge-usdt1').value;
+            const lev1 = document.getElementById('hedge-leverage1').value;
+            // 获取交易所2参数
+            const ex2 = document.getElementById('hedge-ex2').value;
+            const symbol2 = document.getElementById('hedge-symbol2').value;
+            const side2 = document.getElementById('hedge-side2').value;
+            const usdt2 = document.getElementById('hedge-usdt2').value;
+            const lev2 = document.getElementById('hedge-leverage2').value;
+            // 校验
+            if (!symbol1 || !symbol2) {
+                resultDiv.innerHTML = '<span style="color:red">请选择两个交易所的交易对</span>';
+                return;
+            }
+            // 并发请求
+            const [asterResult, backpackResult] = await Promise.allSettled([
+                fetch('/api/hedge_order', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        exchange: ex1,
+                        symbol: symbol1, // 直接用下拉框选中的symbol
+                        side: side1,
+                        usdt_amount: usdt1,
+                        leverage: lev1
+                    })
+                }).then(r => r.json()),
+                fetch('/api/hedge_order', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        exchange: ex2,
+                        symbol: symbol2, // 直接用下拉框选中的symbol
+                        side: side2,
+                        usdt_amount: usdt2,
+                        leverage: lev2
+                    })
+                }).then(r => r.json())
+            ]);
+            
+            let html = '';
+            if (asterResult.status === 'fulfilled') {
+                html += `<div><b>交易所1(${ex1}):</b> ${asterResult.value.success ? '下单成功' : '失败: ' + asterResult.value.error}</div>`;
+            } else {
+                html += `<div><b>交易所1(${ex1}):</b> 失败: ${asterResult.reason.message}</div>`;
+            }
+            
+            if (backpackResult.status === 'fulfilled') {
+                html += `<div><b>交易所2(${ex2}):</b> ${backpackResult.value.success ? '下单成功' : '失败: ' + backpackResult.value.error}</div>`;
+            } else {
+                html += `<div><b>交易所2(${ex2}):</b> 失败: ${backpackResult.reason.message}</div>`;
+            }
+            
+            resultDiv.innerHTML = html;
+            // 下单后自动刷新持仓展示
+            loadHedgePosition(1);
+            loadHedgePosition(2);
+        }
+        
+        async function executeHedgeOrders(params) {
+            const resultDiv = document.getElementById('hedge-result');
+            let results = { aster: null, backpack: null };
+            
+            try {
+                // 并行执行两个交易所的下单
+                const [asterResult, backpackResult] = await Promise.allSettled([
+                    placeOrderOnExchange('aster', params.aster),
+                    placeOrderOnExchange('backpack', params.backpack)
+                ]);
+                
+                // 处理结果
+                if (asterResult.status === 'fulfilled') {
+                    results.aster = asterResult.value;
+                } else {
+                    results.aster = { error: asterResult.reason };
+                }
+                
+                if (backpackResult.status === 'fulfilled') {
+                    results.backpack = backpackResult.value;
+                } else {
+                    results.backpack = { error: backpackResult.reason };
+                }
+                
+                // 显示结果
+                displayHedgeResults(results);
+                
+            } catch (error) {
+                resultDiv.innerHTML = `<div class="alert alert-danger">对冲下单失败: ${error.message}</div>`;
+            }
+        }
+        
+        async function placeOrderOnExchange(exchange, params) {
+            const response = await fetch('/api/hedge_order', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    exchange: exchange,
+                    ...params
+                })
+            });
+            
+            const data = await response.json();
+            if (!data.success) {
+                throw new Error(data.error);
+            }
+            return data.result;
+        }
+        
+        function displayHedgeResults(results) {
+            const resultDiv = document.getElementById('hedge-result');
+            let html = '<div class="card"><h4>对冲下单结果</h4>';
+            
+            // Aster结果
+            html += '<div style="margin-bottom: 15px;"><strong>Aster交易所:</strong>';
+            if (results.aster.error) {
+                html += `<div class="alert alert-danger">失败: ${results.aster.error}</div>`;
+            } else {
+                html += `<div class="alert alert-success">成功: 订单ID ${results.aster.orderId || 'N/A'}</div>`;
+            }
+            html += '</div>';
+            
+            // Backpack结果
+            html += '<div style="margin-bottom: 15px;"><strong>Backpack交易所:</strong>';
+            if (results.backpack.error) {
+                html += `<div class="alert alert-danger">失败: ${results.backpack.error}</div>`;
+            } else {
+                html += `<div class="alert alert-success">成功: 订单ID ${results.backpack.orderId || 'N/A'}</div>`;
+            }
+            html += '</div>';
+            
+            html += '</div>';
+            resultDiv.innerHTML = html;
+        }
+        
+        async function closeHedgePositions() {
+            const resultDiv = document.getElementById('hedge-result');
+            resultDiv.innerHTML = '<div class="loading">正在执行对冲平仓...</div>';
+            
+            const asterSymbol = document.getElementById('hedge-symbol1').value;
+            const backpackSymbol = document.getElementById('hedge-symbol2').value;
+            // 直接用下拉框选中的symbol，不做自动转换
+            try {
+                const [asterResult, backpackResult] = await Promise.allSettled([
+                    closePositionOnExchange('aster', asterSymbol),
+                    closePositionOnExchange('backpack', backpackSymbol)
+                ]);
+                
+                let results = { aster: null, backpack: null };
+                
+                if (asterResult.status === 'fulfilled') {
+                    results.aster = asterResult.value;
+                } else {
+                    results.aster = { error: asterResult.reason };
+                }
+                
+                if (backpackResult.status === 'fulfilled') {
+                    results.backpack = backpackResult.value;
+                } else {
+                    results.backpack = { error: backpackResult.reason };
+                }
+                
+                displayHedgeResults(results);
+                
+            } catch (error) {
+                resultDiv.innerHTML = `<div class="alert alert-danger">对冲平仓失败: ${error.message}</div>`;
+            }
+        }
+        
+        async function closePositionOnExchange(exchange, symbol) {
+            const response = await fetch('/api/close_position', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    exchange: exchange,
+                    symbol: symbol
+                })
+            });
+            
+            const data = await response.json();
+            if (!data.success) {
+                throw new Error(data.error);
+            }
+            return data.result;
+        }
+        
+        // 同步金额功能
+        document.getElementById('hedge-usdt1').addEventListener('input', function() {
+            if (document.getElementById('hedge-sync-amount').checked) {
+                document.getElementById('hedge-usdt2').value = this.value;
+            }
+        });
+        
+        // 自动转换交易对格式
+        document.getElementById('hedge-symbol1').addEventListener('change', function() {
+            if (document.getElementById('hedge-auto-symbol').checked) {
+                const backpackSymbol = this.value.replace('USDT', '_USDT');
+                // 仅在symbol2无值时自动赋值，避免覆盖默认
+                const symbol2Sel = document.getElementById('hedge-symbol2');
+                if (!symbol2Sel.value) {
+                    symbol2Sel.value = backpackSymbol;
+                }
+            }
+        });
+
+        // 对刷tab：选择交易所后动态加载合约交易对，优先用本地缓存
+        async function loadHedgeSymbols(idx) {
+            const ex = document.getElementById('hedge-ex' + idx).value;
+            const symbolSel = document.getElementById('hedge-symbol' + idx);
+            // 1. 先查本地缓存（与主页面一致）
+            let cacheKey = 'symbols_with_leverage_' + ex;
+            let cacheExpireKey = 'symbols_with_leverage_expire_' + ex;
+            let cache = localStorage.getItem(cacheKey);
+            let expire = localStorage.getItem(cacheExpireKey);
+            let now = Date.now();
+            let symbols = [];
+            if (cache && expire && now < parseInt(expire)) {
+                try {
+                    const data = JSON.parse(cache);
+                    symbols = data.symbols || [];
+                    // 复用主页面的过滤逻辑
+                    if (ex === 'backpack') {
+                        symbols = filterBackpackPerpSymbols(symbols);
+                    }
+                    let html = '';
+                    symbols.forEach(s => {
+                        let symbolStr = getSymbolStr(s);
+                        if (ex === 'backpack' && symbolStr) symbolStr = symbolStr.replace(/-/g, '_');
+                        html += `<option value="${symbolStr}">${symbolStr}</option>`;
+                    });
+                    symbolSel.innerHTML = html;
+                    // 设置默认选中backpack的BTC_USDC_PERP
+                    if (idx === 2 && ex === 'backpack') {
+                        if ([...symbolSel.options].some(opt => opt.value === 'BTC_USDC_PERP')) {
+                            symbolSel.value = 'BTC_USDC_PERP';
+                            loadHedgePosition(2, true);
+                        }
+                    }
+                    return;
+                } catch (e) {
+                    // 缓存解析失败，继续走接口
+                }
+            }
+            // 2. 缓存无效才请求API
+            symbolSel.innerHTML = '<option value="">加载中...</option>';
+            try {
+                const resp = await fetch(`/api/symbols_with_leverage?exchange=${ex}`);
+                const data = await resp.json();
+                if (data.success) {
+                    symbols = data.symbols || [];
+                    if (ex === 'backpack') {
+                        symbols = filterBackpackPerpSymbols(symbols);
+                    }
+                    let html = '';
+                    symbols.forEach(s => {
+                        let symbolStr = getSymbolStr(s);
+                        if (ex === 'backpack' && symbolStr) symbolStr = symbolStr.replace(/-/g, '_');
+                        html += `<option value="${symbolStr}">${symbolStr}</option>`;
+                    });
+                    symbolSel.innerHTML = html;
+                    // 设置默认选中backpack的BTC_USDC_PERP
+                    if (idx === 2 && ex === 'backpack') {
+                        if ([...symbolSel.options].some(opt => opt.value === 'BTC_USDC_PERP')) {
+                            symbolSel.value = 'BTC_USDC_PERP';
+                            loadHedgePosition(2, true);
+                        }
+                    }
+                    // 更新缓存
+                    localStorage.setItem(cacheKey, JSON.stringify(data));
+                    localStorage.setItem(cacheExpireKey, (now + 24*60*60*1000).toString());
+                } else {
+                    symbolSel.innerHTML = '<option value="">加载失败</option>';
+                }
+            } catch (e) {
+                symbolSel.innerHTML = '<option value="">网络错误</option>';
+            }
+        }
+
+        // 修改杠杆输入框默认值为50，并根据交易所动态禁用
+        function updateHedgeLeverageInput(idx) {
+            const ex = document.getElementById('hedge-ex' + idx).value;
+            const levInput = document.getElementById('hedge-leverage' + idx);
+            let tipId = 'hedge-leverage-tip' + idx;
+            let tip = document.getElementById(tipId);
+            if (!tip) {
+                tip = document.createElement('div');
+                tip.id = tipId;
+                tip.style = 'color:#888;font-size:13px;margin-top:5px;';
+                levInput.parentNode.appendChild(tip);
+            }
+            if (ex === 'backpack') {
+                levInput.value = 50;
+                levInput.disabled = true;
+                tip.textContent = 'Backpack默认50倍杠杆';
+            } else {
+                levInput.disabled = false;
+                tip.textContent = '';
+            }
+        }
+        // 监听页面交易所切换
+        ['hedge-ex1','hedge-ex2'].forEach((id, idx) => {
+            document.getElementById(id).addEventListener('change', function() {
+                updateHedgeLeverageInput(idx+1);
+            });
+        });
+        // 页面加载时初始化杠杆输入框
+        updateHedgeLeverageInput(1);
+        updateHedgeLeverageInput(2);
+
+        // 刷新对刷tab的持仓信息
+        async function loadHedgePosition(idx, showLoading = false) {
+            const ex = document.getElementById('hedge-ex' + idx).value;
+            const symbol = document.getElementById('hedge-symbol' + idx).value;
+            const posDiv = document.getElementById('hedge-position' + idx + '-show');
+            if (!symbol) {
+                posDiv.innerHTML = '';
+                return;
+            }
+            if (showLoading) {
+                posDiv.innerHTML = '<span style="color:#888">加载持仓...</span>';
+            }
+            try {
+                const resp = await fetch(`/api/account?exchange=${ex}`);
+                const data = await resp.json();
+                if (!data.success) {
+                    posDiv.innerHTML = '<span style="color:red">获取失败</span>';
+                    return;
+                }
+                const positions = data.positions || [];
+                let pos = positions.find(p => p.symbol === symbol && (parseFloat(p.positionAmt || p.position_amt || p.netQuantity || 0) !== 0));
+                if (!pos) {
+                    posDiv.innerHTML = '<span style="color:#888">无持仓</span>';
+                    return;
+                }
+                let amt = pos.positionAmt || pos.position_amt || pos.netQuantity || 0;
+                let entry = pos.entryPrice || pos.entry_price || '--';
+                let pnl = pos.pnlUnrealized ?? pos.unrealizedProfit ?? pos.unrealizedPnl ?? pos.unrealized_profit ?? '--';
+                posDiv.innerHTML = `<b>持仓量:</b> ${amt} <b>开仓价:</b> ${entry} <b>未实现盈亏:</b> ${pnl}`;
+            } catch (e) {
+                posDiv.innerHTML = '<span style="color:red">网络错误</span>';
+            }
+        }
+        // 持仓展示区每15秒自动刷新（静默刷新）
+        setInterval(() => {
+            loadHedgePosition(1, false);
+            loadHedgePosition(2, false);
+        }, 15000);
+        // 页面初始化和手动切换时依然显示加载
+        loadHedgePosition(1, true);
+        loadHedgePosition(2, true);
+
+        // ------------------套利模块专用JS------------------
+        // 其余JS请参考对刷tab，所有hedge-相关均批量替换为arbi-，函数名/变量名唯一化
+        // 1. 交易对加载
+        async function loadArbiSymbols(idx) {
+            const ex = document.getElementById('arbi-ex' + idx).value;
+            const symbolSel = document.getElementById('arbi-symbol' + idx);
+            let cacheKey = 'symbols_with_leverage_' + ex;
+            let cacheExpireKey = 'symbols_with_leverage_expire_' + ex;
+            let cache = localStorage.getItem(cacheKey);
+            let expire = localStorage.getItem(cacheExpireKey);
+            let now = Date.now();
+            let symbols = [];
+            if (cache && expire && now < parseInt(expire)) {
+                try {
+                    const data = JSON.parse(cache);
+                    symbols = data.symbols || [];
+                    if (ex === 'backpack') {
+                        symbols = filterBackpackPerpSymbols(symbols);
+                    }
+                    let html = '';
+                    symbols.forEach(s => {
+                        let symbolStr = getSymbolStr(s);
+                        if (ex === 'backpack' && symbolStr) symbolStr = symbolStr.replace(/-/g, '_');
+                        html += `<option value="${symbolStr}">${symbolStr}</option>`;
+                    });
+                    symbolSel.innerHTML = html;
+                    // 设置默认选中backpack的BTC_USDC_PERP
+                    if (idx === 2 && ex === 'backpack') {
+                        if ([...symbolSel.options].some(opt => opt.value === 'BTC_USDC_PERP')) {
+                            symbolSel.value = 'BTC_USDC_PERP';
+                            loadArbiPosition(2, true);
+                        }
+                    }
+                    return;
+                } catch (e) {}
+            }
+            symbolSel.innerHTML = '<option value="">加载中...</option>';
+            try {
+                const resp = await fetch(`/api/symbols_with_leverage?exchange=${ex}`);
+                const data = await resp.json();
+                if (data.success) {
+                    symbols = data.symbols || [];
+                    if (ex === 'backpack') {
+                        symbols = filterBackpackPerpSymbols(symbols);
+                    }
+                    let html = '';
+                    symbols.forEach(s => {
+                        let symbolStr = getSymbolStr(s);
+                        if (ex === 'backpack' && symbolStr) symbolStr = symbolStr.replace(/-/g, '_');
+                        html += `<option value="${symbolStr}">${symbolStr}</option>`;
+                    });
+                    symbolSel.innerHTML = html;
+                    if (idx === 2 && ex === 'backpack') {
+                        if ([...symbolSel.options].some(opt => opt.value === 'BTC_USDC_PERP')) {
+                            symbolSel.value = 'BTC_USDC_PERP';
+                            loadArbiPosition(2, true);
+                        }
+                    }
+                    localStorage.setItem(cacheKey, JSON.stringify(data));
+                    localStorage.setItem(cacheExpireKey, (now + 24*60*60*1000).toString());
+                } else {
+                    symbolSel.innerHTML = '<option value="">加载失败</option>';
+                }
+            } catch (e) {
+                symbolSel.innerHTML = '<option value="">网络错误</option>';
+            }
+        }
+        // 2. 杠杆输入框联动
+        function updateArbiLeverageInput(idx) {
+            const ex = document.getElementById('arbi-ex' + idx).value;
+            const input = document.getElementById('arbi-leverage' + idx);
+            if (ex === 'backpack') {
+                input.value = 50;
+                input.disabled = true;
+            } else {
+                input.disabled = false;
+            }
+        }
+        // 3. 金额同步
+        document.getElementById('arbi-usdt1').addEventListener('input', function() {
+            if (document.getElementById('arbi-sync-amount').checked) {
+                document.getElementById('arbi-usdt2').value = this.value;
+            }
+        });
+
+        // 4. 自动转换交易对格式
+        document.getElementById('arbi-symbol1').addEventListener('change', function() {
+            if (document.getElementById('arbi-auto-symbol').checked) {
+                const backpackSymbol = this.value.replace('USDT', '_USDT');
+                const symbol2Sel = document.getElementById('arbi-symbol2');
+                if (!symbol2Sel.value) {
+                    symbol2Sel.value = backpackSymbol;
+                }
+            }
+        });
+
+        // 5. 持仓加载
+        async function loadArbiPosition(idx, showLoading = false) {
+            const ex = document.getElementById('arbi-ex' + idx).value;
+            const symbol = document.getElementById('arbi-symbol' + idx).value;
+            const posDiv = document.getElementById('arbi-position' + idx + '-show');
+            if (!symbol) {
+                posDiv.innerHTML = '';
+                return;
+            }
+            if (showLoading) {
+                posDiv.innerHTML = '<span style="color:#888">加载持仓...</span>';
+            }
+            try {
+                const resp = await fetch(`/api/account?exchange=${ex}`);
+                const data = await resp.json();
+                if (!data.success) {
+                    posDiv.innerHTML = '<span style="color:red">获取失败</span>';
+                    return;
+                }
+                const positions = data.positions || [];
+                let pos = positions.find(p => p.symbol === symbol && (parseFloat(p.positionAmt || p.position_amt || p.netQuantity || 0) !== 0));
+                if (pos) {
+                    let amt = pos.positionAmt || pos.position_amt || pos.netQuantity || 0;
+                    let entry = pos.entryPrice || pos.entry_price || '--';
+                    // 优先兼容Backpack的pnlUnrealized
+                    let pnl = pos.pnlUnrealized ?? pos.unrealizedProfit ?? pos.unrealizedPnl ?? pos.unrealized_profit ?? '--';
+                    posDiv.innerHTML = `<b>持仓量:</b> ${amt} <b>开仓价:</b> ${entry} <b>未实现盈亏:</b> ${pnl}`;
+                } else {
+                    posDiv.innerHTML = '<span style="color:#888">无持仓</span>';
+                }
+            } catch (e) {
+                posDiv.innerHTML = '<span style="color:red">网络错误</span>';
+            }
+        }
+
+        // 6. 一键套利下单
+        async function placeArbiOrders() {
+            const resultDiv = document.getElementById('arbi-result');
+            resultDiv.innerHTML = '<div class="loading">正在执行套利下单...</div>';
+            
+            const ex1 = document.getElementById('arbi-ex1').value;
+            const symbol1 = document.getElementById('arbi-symbol1').value;
+            const side1 = document.getElementById('arbi-side1').value;
+            const usdt1 = document.getElementById('arbi-usdt1').value;
+            const lev1 = document.getElementById('arbi-leverage1').value;
+            
+            const ex2 = document.getElementById('arbi-ex2').value;
+            const symbol2 = document.getElementById('arbi-symbol2').value;
+            const side2 = document.getElementById('arbi-side2').value;
+            const usdt2 = document.getElementById('arbi-usdt2').value;
+            const lev2 = document.getElementById('arbi-leverage2').value;
+            
+            if (!symbol1 || !symbol2) {
+                resultDiv.innerHTML = '<div class="alert alert-danger">请选择交易对</div>';
+                return;
+            }
+            
+            try {
+                const [asterResult, backpackResult] = await Promise.allSettled([
+                    fetch('/api/hedge_order', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            exchange: ex1,
+                            symbol: symbol1,
+                            side: side1,
+                            usdt_amount: usdt1,
+                            leverage: lev1
+                        })
+                    }).then(r => r.json()),
+                    fetch('/api/hedge_order', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            exchange: ex2,
+                            symbol: symbol2,
+                            side: side2,
+                            usdt_amount: usdt2,
+                            leverage: lev2
+                        })
+                    }).then(r => r.json())
+                ]);
+                
+                let html = '';
+                if (asterResult.status === 'fulfilled') {
+                    html += `<div><b>交易所1(${ex1}):</b> ${asterResult.value.success ? '下单成功' : '失败: ' + asterResult.value.error}</div>`;
+                } else {
+                    html += `<div><b>交易所1(${ex1}):</b> 失败: ${asterResult.reason.message}</div>`;
+                }
+                
+                if (backpackResult.status === 'fulfilled') {
+                    html += `<div><b>交易所2(${ex2}):</b> ${backpackResult.value.success ? '下单成功' : '失败: ' + backpackResult.value.error}</div>`;
+                } else {
+                    html += `<div><b>交易所2(${ex2}):</b> 失败: ${backpackResult.reason.message}</div>`;
+                }
+                
+                resultDiv.innerHTML = html;
+                // 下单后自动刷新持仓展示
+                loadArbiPosition(1);
+                loadArbiPosition(2);
+            } catch (error) {
+                resultDiv.innerHTML = `<div class="alert alert-danger">套利下单失败: ${error.message}</div>`;
+            }
+        }
+
+        // 7. 一键平仓
+        // 防止重复平仓
+        let arbiClosing = false;
+        function arbiCloseAll() {
+            console.log('arbiCloseAll 被调用');
+            closeArbiPositions();
+        }
+        async function closeArbiPositions() {
+            if (arbiClosing) {
+                console.log('正在平仓中，忽略重复请求');
+                return;
+            }
+            arbiClosing = true;
+            console.log('closeArbiPositions 被调用');
+            const resultDiv = document.getElementById('arbi-result');
+            resultDiv.innerHTML = '<div class="loading">正在执行套利平仓...</div>';
+            const asterSymbol = document.getElementById('arbi-symbol1').value;
+            const backpackSymbol = document.getElementById('arbi-symbol2').value;
+            try {
+                const [asterResult, backpackResult] = await Promise.allSettled([
+                    closeArbiPositionOnExchange('aster', asterSymbol),
+                    closeArbiPositionOnExchange('backpack', backpackSymbol)
+                ]);
+                let results = { aster: null, backpack: null };
+                if (asterResult.status === 'fulfilled') {
+                    results.aster = asterResult.value;
+                } else {
+                    results.aster = { error: asterResult.reason };
+                }
+                if (backpackResult.status === 'fulfilled') {
+                    results.backpack = backpackResult.value;
+                } else {
+                    results.backpack = { error: backpackResult.reason };
+                }
+                displayArbiResults(results);
+                // 平仓后自动刷新持仓
+                loadArbiPosition(1, true);
+                loadArbiPosition(2, true);
+            } catch (error) {
+                resultDiv.innerHTML = `<div class="alert alert-danger">套利平仓失败: ${error.message}</div>`;
+            }
+            arbiClosing = false;
+        }
+
+        async function closeArbiPositionOnExchange(exchange, symbol) {
+            const response = await fetch('/api/close_position', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    exchange: exchange,
+                    symbol: symbol
+                })
+            });
+            
+            const data = await response.json();
+            if (!data.success) {
+                throw new Error(data.error);
+            }
+            return data.result;
+        }
+
+        function displayArbiResults(results) {
+            const resultDiv = document.getElementById('arbi-result');
+            let html = '<div class="card"><h4>套利操作结果</h4>';
+            
+            // Aster结果
+            html += '<div style="margin-bottom: 15px;"><strong>Aster交易所:</strong>';
+            if (results.aster.error) {
+                html += `<div class="alert alert-danger">失败: ${results.aster.error}</div>`;
+            } else {
+                html += `<div class="alert alert-success">成功: 订单ID ${results.aster.orderId || 'N/A'}</div>`;
+            }
+            html += '</div>';
+            
+            // Backpack结果
+            html += '<div style="margin-bottom: 15px;"><strong>Backpack交易所:</strong>';
+            if (results.backpack.error) {
+                html += `<div class="alert alert-danger">失败: ${results.backpack.error}</div>`;
+            } else {
+                html += `<div class="alert alert-success">成功: 订单ID ${results.backpack.orderId || 'N/A'}</div>`;
+            }
+            html += '</div>';
+            
+            html += '</div>';
+            resultDiv.innerHTML = html;
+        }
+
+        // 8. 套利tab持仓展示区每15秒自动刷新
+        setInterval(() => {
+            loadArbiPosition(1);
+            loadArbiPosition(2);
+        }, 15000);
+
+        // 9. 页面初始化时设置套利tab默认值
+        window.addEventListener('DOMContentLoaded', function() {
+            // 套利tab默认值设置
+            document.getElementById('arbi-ex1').value = 'aster';
+            document.getElementById('arbi-ex2').value = 'backpack';
+            document.getElementById('arbi-side1').value = 'BUY';
+            document.getElementById('arbi-side2').value = 'SELL';
+            document.getElementById('arbi-usdt1').value = 150;
+            document.getElementById('arbi-usdt2').value = 150;
+            
+            // 先设置交易所，再分别加载symbols，保证数据源正确
+            loadArbiSymbols(1);
+            loadArbiSymbols(2);
+            loadArbiPosition(1, true);
+            loadArbiPosition(2, true);
+        });
+
+        // 10. 页面加载时自动激活上次tab
+        window.addEventListener('DOMContentLoaded', function() {
+            const lastTab = localStorage.getItem('activeTab') || 'overview';
+            // 触发一次tab切换
+            const tabBtn = Array.from(document.querySelectorAll('.tab')).find(tab => tab.textContent.includes(
+                lastTab === 'overview' ? '账户概览' :
+                lastTab === 'trading' ? '交易操作' :
+                lastTab === 'hedge' ? '对刷对冲' :
+                lastTab === 'arbitrage' ? '套利模块' :
+                lastTab === 'orders' ? '订单历史' :
+                lastTab === 'pnl' ? '盈亏历史' : '账户概览'
+            ));
+            if (tabBtn) {
+                // 手动触发点击事件
+                tabBtn.click();
+            }
+        });
+
+        // 11. 套利模块买1卖1价格自动刷新
+        async function updateArbiOrderbook(idx) {
+            console.log('调用updateArbiOrderbook', idx);
+            const ex = document.getElementById('arbi-ex' + idx).value;
+            const symbol = document.getElementById('arbi-symbol' + idx).value;
+            const span = document.getElementById('arbi-orderbook' + idx);
+            let ask1 = null, bid1 = null;
+            if (!symbol) {
+                span.textContent = '卖1价格：--　买1价格：--';
+            } else {
+                try {
+                    const resp = await fetch(`/api/orderbook/${symbol}?exchange=${ex}`);
+                    const data = await resp.json();
+                    if (data.success && data.orderbook) {
+                        const asks = data.orderbook.asks;
+                        const bids = data.orderbook.bids;
+                        ask1 = asks && asks.length ? Number(asks[0][0]) : null;
+                        bid1 = bids && bids.length ? Number(bids[0][0]) : null;
+                        span.textContent = `卖1价格：${ask1??'--'}　买1价格：${bid1??'--'}`;
+                    } else {
+                        span.textContent = '卖1价格：--　买1价格：--';
+                    }
+                } catch (e) {
+                    span.textContent = '卖1价格：--　买1价格：--';
+                }
+            }
+            window['arbi_ask'+idx] = ask1;
+            window['arbi_bid'+idx] = bid1;
+            console.log('赋值后', idx, window['arbi_ask'+idx], window['arbi_bid'+idx]);
+            updateArbiDiff();
+        }
+        // diff1/diff2计算与展示（只在一键套利区展示）
+        function updateArbiDiff() {
+            console.log('调用updateArbiDiff');
+            let diff1 = '--', diff2 = '--';
+            if(!isNaN(window.arbi_bid1) && !isNaN(window.arbi_ask2)) diff1 = (window.arbi_bid1 - window.arbi_ask2).toFixed(2);
+            if(!isNaN(window.arbi_bid2) && !isNaN(window.arbi_ask1)) diff2 = (window.arbi_bid2 - window.arbi_ask1).toFixed(2);
+            document.getElementById('arbi-diff').textContent = `diff1 = ${diff1}，diff2 = ${diff2}`;
+            console.log('页面diff内容', document.getElementById('arbi-diff').textContent);
+            // 自动判断方向
+            const threshold = Number(document.getElementById('arbi-threshold').value);
+            if(!isNaN(threshold)) {
+                if(Number(diff1) > threshold) {
+                    document.getElementById('arbi-side2').value = 'BUY';
+                    document.getElementById('arbi-side1').value = 'SELL';
+                } else if(Number(diff2) > threshold) {
+                    document.getElementById('arbi-side2').value = 'SELL';
+                    document.getElementById('arbi-side1').value = 'BUY';
+                }
+            }
+            tryAutoArbitrage();
+            tryAutoClose();
+        }
+        // 监听阈值输入变化，实时触发自动判断
+        const arbiThresholdInput = document.getElementById('arbi-threshold');
+        arbiThresholdInput.addEventListener('input', updateArbiDiff);
+        // 绑定套利tab下拉框事件
+        document.getElementById('arbi-ex1').addEventListener('change', function() { updateArbiOrderbook(1); });
+        document.getElementById('arbi-symbol1').addEventListener('change', function() { updateArbiOrderbook(1); });
+        document.getElementById('arbi-ex2').addEventListener('change', function() { updateArbiOrderbook(2); });
+        document.getElementById('arbi-symbol2').addEventListener('change', function() { updateArbiOrderbook(2); });
+        // 页面初始化时自动加载
+        window.addEventListener('DOMContentLoaded', function() {
+            updateArbiOrderbook(1);
+            updateArbiOrderbook(2);
+        });
+        // 每3秒自动刷新套利模块买1卖1价格
+        setInterval(function() {
+            updateArbiOrderbook(1);
+            updateArbiOrderbook(2);
+        }, 3000);
+
+        // 自动套利核心逻辑
+        let arbiAutoTrading = false;
+        document.getElementById('arbi-auto-enable').addEventListener('change', function() {
+            arbiAutoTrading = this.checked;
+        });
+        // 自动套利下单防止重复
+        let arbiOpening = false;
+        async function tryAutoArbitrage() {
+            if (!arbiAutoTrading) return;
+            if (arbiOpening) {
+                console.log('自动套利下单中，忽略本次触发');
+                return;
+            }
+            const threshold = Number(document.getElementById('arbi-threshold').value);
+            const bid1 = Number(window.arbi_bid1), ask1 = Number(window.arbi_ask1);
+            const bid2 = Number(window.arbi_bid2), ask2 = Number(window.arbi_ask2);
+            let diff1 = !isNaN(bid1) && !isNaN(ask2) ? (bid1-ask2) : null;
+            let diff2 = !isNaN(bid2) && !isNaN(ask1) ? (bid2-ask1) : null;
+            // 检查当前是否有持仓
+            const pos1 = await getArbiPositionAmt(1);
+            const pos2 = await getArbiPositionAmt(2);
+            if ((Math.abs(pos1) > 0.00001) || (Math.abs(pos2) > 0.00001)) return; // 有持仓不自动开新仓
+            // 满足条件自动下单，并在下单后设置开仓方向
+            if (diff1 !== null && diff1 > threshold) {
+                arbiOpening = true;
+                await placeArbiOrderAuto('SELL', 'BUY', ask2, bid1);
+                window.arbi_open_diff_type = 'diff1';
+                localStorage.setItem('arbi_open_diff_type', 'diff1');
+                arbiOpening = false;
+            } else if (diff2 !== null && diff2 > threshold) {
+                arbiOpening = true;
+                await placeArbiOrderAuto('BUY', 'SELL', ask1, bid2);
+                window.arbi_open_diff_type = 'diff2';
+                localStorage.setItem('arbi_open_diff_type', 'diff2');
+                arbiOpening = false;
+            }
+        }
+        // 获取套利持仓量
+        async function getArbiPositionAmt(idx) {
+            const ex = document.getElementById('arbi-ex'+idx).value;
+            const symbol = document.getElementById('arbi-symbol'+idx).value;
+            try {
+                const resp = await fetch(`/api/account?exchange=${ex}`);
+                const data = await resp.json();
+                if (!data.success) return 0;
+                const positions = data.positions || [];
+                let pos = positions.find(p => p.symbol === symbol);
+                let amt = pos ? (parseFloat(pos.positionAmt || pos.position_amt || pos.netQuantity || 0)) : 0;
+                return amt;
+            } catch { return 0; }
+        }
+        // 自动套利下单
+        async function placeArbiOrderAuto(side1, side2, price1, price2) {
+            // 只用用户设定的金额和杠杆
+            const ex1 = document.getElementById('arbi-ex1').value;
+            const symbol1 = document.getElementById('arbi-symbol1').value;
+            const usdt1 = document.getElementById('arbi-usdt1').value;
+            const lev1 = document.getElementById('arbi-leverage1').value;
+            const ex2 = document.getElementById('arbi-ex2').value;
+            const symbol2 = document.getElementById('arbi-symbol2').value;
+            const usdt2 = document.getElementById('arbi-usdt2').value;
+            const lev2 = document.getElementById('arbi-leverage2').value;
+            // 下单
+            await Promise.allSettled([
+                fetch('/api/hedge_order', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ exchange: ex1, symbol: symbol1, side: side1, usdt_amount: usdt1, leverage: lev1 })
+                }),
+                fetch('/api/hedge_order', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ exchange: ex2, symbol: symbol2, side: side2, usdt_amount: usdt2, leverage: lev2 })
+                })
+            ]);
+            // 下单后自动刷新持仓
+            loadArbiPosition(1);
+            loadArbiPosition(2);
+        }
+        // // diff刷新时自动尝试套利
+        // function updateArbiDiff() {
+        //     // ...原有diff计算...
+        //     // ...自动判断方向...
+        //     // 新增：自动套利
+        //     tryAutoArbitrage();
+        // }
+
+        // 新增：自动平仓逻辑，只用开仓方向的diff判断
+        async function tryAutoClose() {
+            const closeThreshold = Number(document.getElementById('arbi-close-threshold').value);
+            if (isNaN(closeThreshold)) return;
+            const pos1 = await getArbiPositionAmt(1);
+            const pos2 = await getArbiPositionAmt(2);
+            const diff1 = !isNaN(window.arbi_bid1) && !isNaN(window.arbi_ask2) ? (window.arbi_bid1 - window.arbi_ask2) : null;
+            const diff2 = !isNaN(window.arbi_bid2) && !isNaN(window.arbi_ask1) ? (window.arbi_bid2 - window.arbi_ask1) : null;
+            console.log('自动平仓检测', {
+                openType: window.arbi_open_diff_type,
+                pos1, pos2, diff1, diff2, closeThreshold
+            });
+            if (Math.abs(pos1) < 0.00001 && Math.abs(pos2) < 0.00001) return;
+            if (window.arbi_open_diff_type === 'diff1' && diff1 !== null && diff1 <= closeThreshold) {
+                arbiCloseAll();
+                window.arbi_open_diff_type = null;
+                localStorage.removeItem('arbi_open_diff_type');
+            } else if (window.arbi_open_diff_type === 'diff2' && diff2 !== null && diff2 <= closeThreshold) {
+                arbiCloseAll();
+                window.arbi_open_diff_type = null;
+                localStorage.removeItem('arbi_open_diff_type');
+            }
+        }
+
+        // 监听平仓阀值输入变化，实时触发diff刷新
+        document.getElementById('arbi-close-threshold').addEventListener('input', updateArbiDiff);
+    </script>
+</body>
+</html> 

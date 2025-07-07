@@ -1,0 +1,4 @@
+2025-07-07 14:27:47 | INFO     | __main__:get_account:50 - 收到的exchange参数: %s
+2025-07-07 14:27:47 | INFO     | __main__:get_account:52 - ex实例类型: %s
+2025-07-07 14:27:47 | INFO     | __main__:get_account:54 - web_app.py用的BACKPACK_API_KEY: %s
+2025-07-07 14:27:47 | INFO     | __main__:get_account:55 - web_app.py用的BACKPACK_API_SECRET: %s

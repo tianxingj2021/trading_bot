@@ -1,0 +1,254 @@
+2025-07-04 15:15:20 | INFO     | __main__:get_account:41 - 收到的exchange参数: %s
+2025-07-04 15:15:20 | INFO     | __main__:get_account:43 - ex实例类型: %s
+2025-07-04 15:15:20 | INFO     | __main__:get_account:45 - web_app.py用的BACKPACK_API_KEY: %s
+2025-07-04 15:15:20 | INFO     | __main__:get_account:46 - web_app.py用的BACKPACK_API_SECRET: %s
+2025-07-04 15:18:25 | INFO     | __main__:get_account:41 - 收到的exchange参数: %s
+2025-07-04 15:18:25 | INFO     | __main__:get_account:43 - ex实例类型: %s
+2025-07-04 15:18:25 | INFO     | __main__:get_account:45 - web_app.py用的BACKPACK_API_KEY: %s
+2025-07-04 15:18:25 | INFO     | __main__:get_account:46 - web_app.py用的BACKPACK_API_SECRET: %s
+2025-07-04 15:29:44 | INFO     | __main__:get_account:41 - 收到的exchange参数: %s
+2025-07-04 15:29:44 | INFO     | __main__:get_account:43 - ex实例类型: %s
+2025-07-04 15:29:44 | INFO     | __main__:get_account:45 - web_app.py用的BACKPACK_API_KEY: %s
+2025-07-04 15:29:44 | INFO     | __main__:get_account:46 - web_app.py用的BACKPACK_API_SECRET: %s
+2025-07-04 16:06:07 | INFO     | __main__:get_account:41 - 收到的exchange参数: %s
+2025-07-04 16:06:07 | INFO     | __main__:get_account:43 - ex实例类型: %s
+2025-07-04 16:06:07 | INFO     | __main__:get_account:45 - web_app.py用的BACKPACK_API_KEY: %s
+2025-07-04 16:06:07 | INFO     | __main__:get_account:46 - web_app.py用的BACKPACK_API_SECRET: %s
+2025-07-04 16:20:57 | INFO     | __main__:get_account:41 - 收到的exchange参数: %s
+2025-07-04 16:20:57 | INFO     | __main__:get_account:43 - ex实例类型: %s
+2025-07-04 16:20:57 | INFO     | __main__:get_account:45 - web_app.py用的BACKPACK_API_KEY: %s
+2025-07-04 16:20:57 | INFO     | __main__:get_account:46 - web_app.py用的BACKPACK_API_SECRET: %s
+2025-07-04 16:21:16 | ERROR    | __main__:get_account:80 - 接口异常: %s
+Traceback (most recent call last):
+
+  File "/opt/homebrew/Cellar/python@3.13/3.13.3_1/Frameworks/Python.framework/Versions/3.13/lib/python3.13/threading.py", line 1012, in _bootstrap
+    self._bootstrap_inner()
+    │    └ <function Thread._bootstrap_inner at 0x100577f60>
+    └ <Thread(Thread-474 (process_request_thread), started daemon 6306656256)>
+
+  File "/opt/homebrew/Cellar/python@3.13/3.13.3_1/Frameworks/Python.framework/Versions/3.13/lib/python3.13/threading.py", line 1041, in _bootstrap_inner
+    self.run()
+    │    └ <function Thread.run at 0x100577ce0>
+    └ <Thread(Thread-474 (process_request_thread), started daemon 6306656256)>
+
+  File "/opt/homebrew/Cellar/python@3.13/3.13.3_1/Frameworks/Python.framework/Versions/3.13/lib/python3.13/threading.py", line 992, in run
+    self._target(*self._args, **self._kwargs)
+    │    │        │    │        │    └ {}
+    │    │        │    │        └ <Thread(Thread-474 (process_request_thread), started daemon 6306656256)>
+    │    │        │    └ (<socket.socket fd=27, family=2, type=1, proto=0, laddr=('127.0.0.1', 5001), raddr=('127.0.0.1', 51445)>, ('127.0.0.1', 51445))
+    │    │        └ <Thread(Thread-474 (process_request_thread), started daemon 6306656256)>
+    │    └ <bound method ThreadingMixIn.process_request_thread of <werkzeug.serving.ThreadedWSGIServer object at 0x106e93380>>
+    └ <Thread(Thread-474 (process_request_thread), started daemon 6306656256)>
+
+  File "/opt/homebrew/Cellar/python@3.13/3.13.3_1/Frameworks/Python.framework/Versions/3.13/lib/python3.13/socketserver.py", line 697, in process_request_thread
+    self.finish_request(request, client_address)
+    │    │              │        └ ('127.0.0.1', 51445)
+    │    │              └ <socket.socket fd=27, family=2, type=1, proto=0, laddr=('127.0.0.1', 5001), raddr=('127.0.0.1', 51445)>
+    │    └ <function BaseServer.finish_request at 0x100579d00>
+    └ <werkzeug.serving.ThreadedWSGIServer object at 0x106e93380>
+
+  File "/opt/homebrew/Cellar/python@3.13/3.13.3_1/Frameworks/Python.framework/Versions/3.13/lib/python3.13/socketserver.py", line 362, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+    │    │                   │        │               └ <werkzeug.serving.ThreadedWSGIServer object at 0x106e93380>
+    │    │                   │        └ ('127.0.0.1', 51445)
+    │    │                   └ <socket.socket fd=27, family=2, type=1, proto=0, laddr=('127.0.0.1', 5001), raddr=('127.0.0.1', 51445)>
+    │    └ <class 'werkzeug.serving.WSGIRequestHandler'>
+    └ <werkzeug.serving.ThreadedWSGIServer object at 0x106e93380>
+
+  File "/opt/homebrew/Cellar/python@3.13/3.13.3_1/Frameworks/Python.framework/Versions/3.13/lib/python3.13/socketserver.py", line 766, in __init__
+    self.handle()
+    │    └ <function WSGIRequestHandler.handle at 0x1025b6c00>
+    └ <werkzeug.serving.WSGIRequestHandler object at 0x106f2b1e0>
+
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.13/site-packages/werkzeug/serving.py", line 398, in handle
+    super().handle()
+
+  File "/opt/homebrew/Cellar/python@3.13/3.13.3_1/Frameworks/Python.framework/Versions/3.13/lib/python3.13/http/server.py", line 436, in handle
+    self.handle_one_request()
+    │    └ <function BaseHTTPRequestHandler.handle_one_request at 0x1022240e0>
+    └ <werkzeug.serving.WSGIRequestHandler object at 0x106f2b1e0>
+
+  File "/opt/homebrew/Cellar/python@3.13/3.13.3_1/Frameworks/Python.framework/Versions/3.13/lib/python3.13/http/server.py", line 424, in handle_one_request
+    method()
+    └ <bound method WSGIRequestHandler.run_wsgi of <werkzeug.serving.WSGIRequestHandler object at 0x106f2b1e0>>
+
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.13/site-packages/werkzeug/serving.py", line 370, in run_wsgi
+    execute(self.server.app)
+    │       │    │      └ <werkzeug.debug.DebuggedApplication object at 0x106e91e80>
+    │       │    └ <werkzeug.serving.ThreadedWSGIServer object at 0x106e93380>
+    │       └ <werkzeug.serving.WSGIRequestHandler object at 0x106f2b1e0>
+    └ <function WSGIRequestHandler.run_wsgi.<locals>.execute at 0x107d37600>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.13/site-packages/werkzeug/serving.py", line 333, in execute
+    for data in application_iter:
+                └ <generator object DebuggedApplication.debug_application at 0x106eb75b0>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.13/site-packages/werkzeug/debug/__init__.py", line 343, in debug_application
+    app_iter = self.app(environ, start_response)
+               │    │   │        └ <function WSGIRequestHandler.run_wsgi.<locals>.start_response at 0x107d34e00>
+               │    │   └ {'wsgi.version': (1, 0), 'wsgi.url_scheme': 'http', 'wsgi.input': <_io.BufferedReader name=27>, 'wsgi.errors': <_io.TextIOWra...
+               │    └ <Flask 'web_app'>
+               └ <werkzeug.debug.DebuggedApplication object at 0x106e91e80>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.13/site-packages/flask/app.py", line 1536, in __call__
+    return self.wsgi_app(environ, start_response)
+           │    │        │        └ <function WSGIRequestHandler.run_wsgi.<locals>.start_response at 0x107d34e00>
+           │    │        └ {'wsgi.version': (1, 0), 'wsgi.url_scheme': 'http', 'wsgi.input': <_io.BufferedReader name=27>, 'wsgi.errors': <_io.TextIOWra...
+           │    └ <function Flask.wsgi_app at 0x10386cd60>
+           └ <Flask 'web_app'>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.13/site-packages/flask/app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+               │    └ <function Flask.full_dispatch_request at 0x10386c4a0>
+               └ <Flask 'web_app'>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.13/site-packages/flask/app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+         │    └ <function Flask.dispatch_request at 0x10386c400>
+         └ <Flask 'web_app'>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.13/site-packages/flask/app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           │    │           │    │              │    │            └ {}
+           │    │           │    │              │    └ 'get_account'
+           │    │           │    │              └ <Rule '/api/account' (OPTIONS, HEAD, GET) -> get_account>
+           │    │           │    └ {'static': <function Flask.__init__.<locals>.<lambda> at 0x106e7f6a0>, 'index': <function index at 0x106e9d120>, 'get_account...
+           │    │           └ <Flask 'web_app'>
+           │    └ <function Flask.ensure_sync at 0x10386c680>
+           └ <Flask 'web_app'>
+
+> File "/Users/dujian/aster/aster_bot_python/web_app.py", line 62, in get_account
+    account = ex.get_account()
+              │  └ <function Aster.get_account at 0x103e00400>
+              └ <exchanges.aster.Aster object at 0x106e987d0>
+
+  File "/Users/dujian/aster/aster_bot_python/exchanges/aster.py", line 602, in get_account
+    response = self._signed_request('GET', '/fapi/v2/account')
+               │    └ <function Aster._signed_request at 0x103c1bba0>
+               └ <exchanges.aster.Aster object at 0x106e987d0>
+
+  File "/Users/dujian/aster/aster_bot_python/exchanges/aster.py", line 419, in _signed_request
+    raise Exception(f"API请求失败: {response.status_code} - {response.text}")
+                                │        │               │        └ <property object at 0x103bfb3d0>
+                                │        │               └ <Response [400]>
+                                │        └ 400
+                                └ <Response [400]>
+
+Exception: API请求失败: 400 - {"code":-1021,"msg":"Timestamp for this request is outside of the recvWindow."}
+2025-07-04 16:21:34 | INFO     | __main__:get_account:41 - 收到的exchange参数: %s
+2025-07-04 16:21:34 | INFO     | __main__:get_account:43 - ex实例类型: %s
+2025-07-04 16:21:34 | INFO     | __main__:get_account:45 - web_app.py用的BACKPACK_API_KEY: %s
+2025-07-04 16:21:34 | INFO     | __main__:get_account:46 - web_app.py用的BACKPACK_API_SECRET: %s
+2025-07-04 16:21:53 | ERROR    | __main__:get_account:80 - 接口异常: %s
+Traceback (most recent call last):
+
+  File "/opt/homebrew/Cellar/python@3.13/3.13.3_1/Frameworks/Python.framework/Versions/3.13/lib/python3.13/threading.py", line 1012, in _bootstrap
+    self._bootstrap_inner()
+    │    └ <function Thread._bootstrap_inner at 0x100577f60>
+    └ <Thread(Thread-483 (process_request_thread), started daemon 13086404608)>
+
+  File "/opt/homebrew/Cellar/python@3.13/3.13.3_1/Frameworks/Python.framework/Versions/3.13/lib/python3.13/threading.py", line 1041, in _bootstrap_inner
+    self.run()
+    │    └ <function Thread.run at 0x100577ce0>
+    └ <Thread(Thread-483 (process_request_thread), started daemon 13086404608)>
+
+  File "/opt/homebrew/Cellar/python@3.13/3.13.3_1/Frameworks/Python.framework/Versions/3.13/lib/python3.13/threading.py", line 992, in run
+    self._target(*self._args, **self._kwargs)
+    │    │        │    │        │    └ {}
+    │    │        │    │        └ <Thread(Thread-483 (process_request_thread), started daemon 13086404608)>
+    │    │        │    └ (<socket.socket fd=33, family=2, type=1, proto=0, laddr=('127.0.0.1', 5001), raddr=('127.0.0.1', 51533)>, ('127.0.0.1', 51533))
+    │    │        └ <Thread(Thread-483 (process_request_thread), started daemon 13086404608)>
+    │    └ <bound method ThreadingMixIn.process_request_thread of <werkzeug.serving.ThreadedWSGIServer object at 0x106e93380>>
+    └ <Thread(Thread-483 (process_request_thread), started daemon 13086404608)>
+
+  File "/opt/homebrew/Cellar/python@3.13/3.13.3_1/Frameworks/Python.framework/Versions/3.13/lib/python3.13/socketserver.py", line 697, in process_request_thread
+    self.finish_request(request, client_address)
+    │    │              │        └ ('127.0.0.1', 51533)
+    │    │              └ <socket.socket fd=33, family=2, type=1, proto=0, laddr=('127.0.0.1', 5001), raddr=('127.0.0.1', 51533)>
+    │    └ <function BaseServer.finish_request at 0x100579d00>
+    └ <werkzeug.serving.ThreadedWSGIServer object at 0x106e93380>
+
+  File "/opt/homebrew/Cellar/python@3.13/3.13.3_1/Frameworks/Python.framework/Versions/3.13/lib/python3.13/socketserver.py", line 362, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+    │    │                   │        │               └ <werkzeug.serving.ThreadedWSGIServer object at 0x106e93380>
+    │    │                   │        └ ('127.0.0.1', 51533)
+    │    │                   └ <socket.socket fd=33, family=2, type=1, proto=0, laddr=('127.0.0.1', 5001), raddr=('127.0.0.1', 51533)>
+    │    └ <class 'werkzeug.serving.WSGIRequestHandler'>
+    └ <werkzeug.serving.ThreadedWSGIServer object at 0x106e93380>
+
+  File "/opt/homebrew/Cellar/python@3.13/3.13.3_1/Frameworks/Python.framework/Versions/3.13/lib/python3.13/socketserver.py", line 766, in __init__
+    self.handle()
+    │    └ <function WSGIRequestHandler.handle at 0x1025b6c00>
+    └ <werkzeug.serving.WSGIRequestHandler object at 0x106fe32b0>
+
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.13/site-packages/werkzeug/serving.py", line 398, in handle
+    super().handle()
+
+  File "/opt/homebrew/Cellar/python@3.13/3.13.3_1/Frameworks/Python.framework/Versions/3.13/lib/python3.13/http/server.py", line 436, in handle
+    self.handle_one_request()
+    │    └ <function BaseHTTPRequestHandler.handle_one_request at 0x1022240e0>
+    └ <werkzeug.serving.WSGIRequestHandler object at 0x106fe32b0>
+
+  File "/opt/homebrew/Cellar/python@3.13/3.13.3_1/Frameworks/Python.framework/Versions/3.13/lib/python3.13/http/server.py", line 424, in handle_one_request
+    method()
+    └ <bound method WSGIRequestHandler.run_wsgi of <werkzeug.serving.WSGIRequestHandler object at 0x106fe32b0>>
+
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.13/site-packages/werkzeug/serving.py", line 370, in run_wsgi
+    execute(self.server.app)
+    │       │    │      └ <werkzeug.debug.DebuggedApplication object at 0x106e91e80>
+    │       │    └ <werkzeug.serving.ThreadedWSGIServer object at 0x106e93380>
+    │       └ <werkzeug.serving.WSGIRequestHandler object at 0x106fe32b0>
+    └ <function WSGIRequestHandler.run_wsgi.<locals>.execute at 0x107cadee0>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.13/site-packages/werkzeug/serving.py", line 333, in execute
+    for data in application_iter:
+                └ <generator object DebuggedApplication.debug_application at 0x106fd43d0>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.13/site-packages/werkzeug/debug/__init__.py", line 343, in debug_application
+    app_iter = self.app(environ, start_response)
+               │    │   │        └ <function WSGIRequestHandler.run_wsgi.<locals>.start_response at 0x107cac220>
+               │    │   └ {'wsgi.version': (1, 0), 'wsgi.url_scheme': 'http', 'wsgi.input': <_io.BufferedReader name=33>, 'wsgi.errors': <_io.TextIOWra...
+               │    └ <Flask 'web_app'>
+               └ <werkzeug.debug.DebuggedApplication object at 0x106e91e80>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.13/site-packages/flask/app.py", line 1536, in __call__
+    return self.wsgi_app(environ, start_response)
+           │    │        │        └ <function WSGIRequestHandler.run_wsgi.<locals>.start_response at 0x107cac220>
+           │    │        └ {'wsgi.version': (1, 0), 'wsgi.url_scheme': 'http', 'wsgi.input': <_io.BufferedReader name=33>, 'wsgi.errors': <_io.TextIOWra...
+           │    └ <function Flask.wsgi_app at 0x10386cd60>
+           └ <Flask 'web_app'>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.13/site-packages/flask/app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+               │    └ <function Flask.full_dispatch_request at 0x10386c4a0>
+               └ <Flask 'web_app'>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.13/site-packages/flask/app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+         │    └ <function Flask.dispatch_request at 0x10386c400>
+         └ <Flask 'web_app'>
+  File "/Users/dujian/aster/aster_bot_python/venv/lib/python3.13/site-packages/flask/app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           │    │           │    │              │    │            └ {}
+           │    │           │    │              │    └ 'get_account'
+           │    │           │    │              └ <Rule '/api/account' (OPTIONS, HEAD, GET) -> get_account>
+           │    │           │    └ {'static': <function Flask.__init__.<locals>.<lambda> at 0x106e7f6a0>, 'index': <function index at 0x106e9d120>, 'get_account...
+           │    │           └ <Flask 'web_app'>
+           │    └ <function Flask.ensure_sync at 0x10386c680>
+           └ <Flask 'web_app'>
+
+> File "/Users/dujian/aster/aster_bot_python/web_app.py", line 62, in get_account
+    account = ex.get_account()
+              │  └ <function Aster.get_account at 0x103e00400>
+              └ <exchanges.aster.Aster object at 0x106e987d0>
+
+  File "/Users/dujian/aster/aster_bot_python/exchanges/aster.py", line 602, in get_account
+    response = self._signed_request('GET', '/fapi/v2/account')
+               │    └ <function Aster._signed_request at 0x103c1bba0>
+               └ <exchanges.aster.Aster object at 0x106e987d0>
+
+  File "/Users/dujian/aster/aster_bot_python/exchanges/aster.py", line 419, in _signed_request
+    raise Exception(f"API请求失败: {response.status_code} - {response.text}")
+                                │        │               │        └ <property object at 0x103bfb3d0>
+                                │        │               └ <Response [400]>
+                                │        └ 400
+                                └ <Response [400]>
+
+Exception: API请求失败: 400 - {"code":-1021,"msg":"Timestamp for this request is outside of the recvWindow."}
+2025-07-04 16:30:14 | INFO     | __main__:get_account:41 - 收到的exchange参数: %s
+2025-07-04 16:30:14 | INFO     | __main__:get_account:43 - ex实例类型: %s
+2025-07-04 16:30:14 | INFO     | __main__:get_account:45 - web_app.py用的BACKPACK_API_KEY: %s
+2025-07-04 16:30:14 | INFO     | __main__:get_account:46 - web_app.py用的BACKPACK_API_SECRET: %s
+2025-07-04 16:30:39 | INFO     | __main__:get_account:41 - 收到的exchange参数: %s
+2025-07-04 16:30:39 | INFO     | __main__:get_account:43 - ex实例类型: %s
+2025-07-04 16:30:39 | INFO     | __main__:get_account:45 - web_app.py用的BACKPACK_API_KEY: %s
+2025-07-04 16:30:39 | INFO     | __main__:get_account:46 - web_app.py用的BACKPACK_API_SECRET: %s
