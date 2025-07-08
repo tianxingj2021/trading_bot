@@ -351,14 +351,15 @@ class EMATrendStrategy:
     def create_trigger_order(self, exchange_instance, symbol, side, quantity, trigger_price, order_type="stop_loss"):
         """创建独立的触发单，必须同时传triggerPrice和triggerQuantity"""
         try:
+            abs_qty = abs(float(quantity))  # 确保为正数
             order_data = {
                 'symbol': symbol,
                 'side': side,
                 'orderType': 'Market',
-                'quantity': quantity,
+                'quantity': abs_qty,
                 'reduceOnly': True,
                 'triggerPrice': f"{float(trigger_price):.2f}",  # Backpack要求价格最多2位小数
-                'triggerQuantity': str(quantity)  # 必须加上
+                'triggerQuantity': str(abs_qty)  # 必须加上，且为正数
             }
             print(f'{order_type}条件单参数:')
             for key, value in order_data.items():
